@@ -13,10 +13,14 @@
 .parrot-outlinks {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .parrot-outlink {
   width: 400px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .parrot-outlink img {
