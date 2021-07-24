@@ -27,9 +27,12 @@ test('all primary links are on page', () => {
       .toHaveAttribute("href", "https://uk.linkedin.com/in/MyNameIsMikeGreen")
 });
 
-test('GitHub link has image', () => {
+test('GitHub link has image', async () => {
   render(<App />);
-  const displayedImage = document.querySelector("img");
-  expect(displayedImage.src).toMatch("GitHub_Logo.png");
-  expect(displayedImage.alt).toMatch("GitHub Logo");
+  expect(await screen.findByAltText("GitHub Logo")).toHaveAttribute("src", "GitHub_Logo.png");
+});
+
+test('LinkedIn link has image', async () => {
+  render(<App />);
+  expect(await screen.findByAltText("LinkedIn Logo")).toHaveAttribute("src", "LinkedIn_Logo.png");
 });

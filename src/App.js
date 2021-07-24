@@ -1,5 +1,6 @@
 import './App.css';
 import githubLogo from './GitHub_Logo.png'
+import linkedInLogo from './LinkedIn_Logo.png'
 
 function App() {
   return (
@@ -22,7 +23,10 @@ function App() {
             </div>
 
             <div className="parrot-outlink">
-                <a href="https://uk.linkedin.com/in/MyNameIsMikeGreen">LinkedIn</a>
+                <a href="https://uk.linkedin.com/in/MyNameIsMikeGreen">
+                    <img src={linkedInLogo} alt="LinkedIn Logo"/>
+                    LinkedIn
+                </a>
             </div>
         </div>
     </div>
