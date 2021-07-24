@@ -1,8 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('all primary links are on page', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  expect(screen.getByText("MyNameIsMikeGreen.co.uk (Food Recipes)"))
+      .toHaveAttribute("href", "https://MyNameIsMikeGreen.co.uk")
+
+  expect(screen.getByText("GitHub"))
+      .toHaveAttribute("href", "https://github.com/MyNameIsMikeGreen")
+
+  expect(screen.getByText("LinkedIn"))
+      .toHaveAttribute("href", "https://uk.linkedin.com/in/MyNameIsMikeGreen")
 });
