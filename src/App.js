@@ -1,4 +1,5 @@
 import './App.css';
+import platypusLogo from './Platypus_Logo.png'
 import githubLogo from './GitHub_Logo.png'
 import linkedInLogo from './LinkedIn_Logo.png'
 
@@ -12,7 +13,10 @@ function App() {
 
         <div className="parrot-outlinks">
             <div className="parrot-outlink">
-                <a href="https://MyNameIsMikeGreen.co.uk">MyNameIsMikeGreen.co.uk (Food Recipes)</a>
+                <a href="https://MyNameIsMikeGreen.co.uk">
+                    <img src={platypusLogo} alt="Platypus Logo"/>
+                    MyNameIsMikeGreen.co.uk (Food Recipes)
+                </a>
             </div>
 
             <div className="parrot-outlink">
