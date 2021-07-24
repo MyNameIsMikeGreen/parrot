@@ -7,6 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  text-decoration: none;
+}
+
 .parrot-main-content {
   text-align: center;
 }
@@ -43,4 +47,5 @@ body {
   padding-top: 10px;
   border-top-width: 1px;
   border-top-style: solid;
+  font-size: small;
 }
