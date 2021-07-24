@@ -5,13 +5,13 @@ import linkedInLogo from './media/LinkedIn_Logo.png'
 
 function MainContent() {
   return (
-    <div className="parrot-main-content">
-        <div className="parrot-title-block">
+    <div id="parrot-main-content">
+        <div id="parrot-title-block">
             <div className="parrot-title-element"><h1>Mike Green</h1></div>
             <div className="parrot-title-element"><h2>Software Engineer</h2></div>
         </div>
 
-        <div className="parrot-outlinks">
+        <div id="parrot-outlinks">
             <div className="parrot-outlink">
                 <a href="https://MyNameIsMikeGreen.co.uk">
                     <img src={platypusLogo} alt="Platypus Logo"/>
