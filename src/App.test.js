@@ -1,6 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
+test('page has title block', () => {
+  render(<App />);
+
+  const nameLabel = screen.getByText("Mike Green");
+  expect(nameLabel).toBeInTheDocument();
+
+  const jobLabel = nameLabel.nextSibling;
+  expect(jobLabel).toHaveTextContent("Software Engineer")
+
+});
+
 test('all primary links are on page', () => {
   render(<App />);
 
