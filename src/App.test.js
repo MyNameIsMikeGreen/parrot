@@ -4,10 +4,12 @@ import App from './App';
 test('page has title block', () => {
   render(<App />);
 
-  const nameLabel = screen.getByText("Mike Green");
-  expect(nameLabel).toBeInTheDocument();
+  const titleBlock = document.querySelector(".parrot-title-block");
 
-  const jobLabel = nameLabel.nextSibling;
+  const nameLabel = titleBlock.childNodes.item(0).firstChild
+  expect(nameLabel).toHaveTextContent("Mike Green")
+
+  const jobLabel = titleBlock.childNodes.item(1).firstChild
   expect(jobLabel).toHaveTextContent("Software Engineer")
 
 });
@@ -23,4 +25,11 @@ test('all primary links are on page', () => {
 
   expect(screen.getByText("LinkedIn"))
       .toHaveAttribute("href", "https://uk.linkedin.com/in/MyNameIsMikeGreen")
+});
+
+test('GitHub link has image', () => {
+  render(<App />);
+  const displayedImage = document.querySelector("img");
+  expect(displayedImage.src).toMatch("GitHub_Logo.png");
+  expect(displayedImage.alt).toMatch("GitHub Logo");
 });
