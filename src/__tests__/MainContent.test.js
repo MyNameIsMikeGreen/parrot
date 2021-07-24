@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import MainContent from '../MainContent';
 
 test('page has title block', () => {
-  render(<App />);
+  render(<MainContent />);
 
   const titleBlock = document.querySelector(".parrot-title-block");
 
@@ -15,7 +15,7 @@ test('page has title block', () => {
 });
 
 test('all primary links are on page', () => {
-  render(<App />);
+  render(<MainContent />);
 
   expect(screen.getByText("MyNameIsMikeGreen.co.uk (Food Recipes)"))
       .toHaveAttribute("href", "https://MyNameIsMikeGreen.co.uk")
@@ -28,17 +28,17 @@ test('all primary links are on page', () => {
 });
 
 test('Platypus link has image', async () => {
-  render(<App />);
+  render(<MainContent />);
   expect(await screen.findByAltText("Platypus Logo")).toHaveAttribute("src", "Platypus_Logo.png");
 });
 
 
 test('GitHub link has image', async () => {
-  render(<App />);
+  render(<MainContent />);
   expect(await screen.findByAltText("GitHub Logo")).toHaveAttribute("src", "GitHub_Logo.png");
 });
 
 test('LinkedIn link has image', async () => {
-  render(<App />);
+  render(<MainContent />);
   expect(await screen.findByAltText("LinkedIn Logo")).toHaveAttribute("src", "LinkedIn_Logo.png");
 });

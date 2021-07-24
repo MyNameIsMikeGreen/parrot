@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.parrot-main-content {
+  text-align: center;
+}
+
+.parrot-title-block {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+.parrot-title-element {}
+
+.parrot-outlinks {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.parrot-outlink {
+  width: 400px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.parrot-outlink img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.parrot-footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top-width: 1px;
+  border-top-style: solid;
+}

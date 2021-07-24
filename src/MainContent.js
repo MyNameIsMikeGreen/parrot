@@ -1,11 +1,11 @@
-import './App.css';
-import platypusLogo from './Platypus_Logo.png'
-import githubLogo from './GitHub_Logo.png'
-import linkedInLogo from './LinkedIn_Logo.png'
+import './GlobalStyling.css';
+import platypusLogo from './media/Platypus_Logo.png'
+import githubLogo from './media/GitHub_Logo.png'
+import linkedInLogo from './media/LinkedIn_Logo.png'
 
-function App() {
+function MainContent() {
   return (
-    <div className="app">
+    <div className="parrot-main-content">
         <div className="parrot-title-block">
             <div className="parrot-title-element"><h1>Mike Green</h1></div>
             <div className="parrot-title-element"><h2>Software Engineer</h2></div>
@@ -37,4 +37,4 @@ function App() {
   );
 }
 
-export default App;
+export default MainContent;
