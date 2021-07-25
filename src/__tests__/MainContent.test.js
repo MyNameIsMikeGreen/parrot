@@ -4,7 +4,7 @@ import MainContent from '../MainContent';
 test('page has title block', () => {
   render(<MainContent />);
 
-  const titleBlock = document.querySelector(".parrot-title-block");
+  const titleBlock = document.querySelector("#parrot-title-block");
 
   const nameLabel = titleBlock.childNodes.item(0).firstChild
   expect(nameLabel).toHaveTextContent("Mike Green")
@@ -29,16 +29,22 @@ test('all primary links are on page', () => {
 
 test('Platypus link has image', async () => {
   render(<MainContent />);
-  expect(await screen.findByAltText("Platypus Logo")).toHaveAttribute("src", "Platypus_Logo.png");
+  const platypusLogo = await screen.findByAltText("Platypus Logo");
+  expect(platypusLogo).toHaveAttribute("src", "Platypus_Logo.png");
+  expect(platypusLogo.nextSibling).toHaveTextContent("MyNameIsMikeGreen.co.uk (Food Recipes)");
 });
 
 
 test('GitHub link has image', async () => {
   render(<MainContent />);
-  expect(await screen.findByAltText("GitHub Logo")).toHaveAttribute("src", "GitHub_Logo.png");
+  const githubLogo = await screen.findByAltText("GitHub Logo");
+  expect(githubLogo).toHaveAttribute("src", "GitHub_Logo.png");
+  expect(githubLogo.nextSibling).toHaveTextContent("GitHub");
 });
 
 test('LinkedIn link has image', async () => {
   render(<MainContent />);
-  expect(await screen.findByAltText("LinkedIn Logo")).toHaveAttribute("src", "LinkedIn_Logo.png");
+  const linkedinLogo = await screen.findByAltText("LinkedIn Logo")
+  expect(linkedinLogo).toHaveAttribute("src", "LinkedIn_Logo.png");
+  expect(linkedinLogo.nextSibling).toHaveTextContent("LinkedIn");
 });
