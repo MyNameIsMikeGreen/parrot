@@ -7,6 +7,7 @@ body {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 #parrot-main-content {
@@ -25,9 +26,7 @@ a {
   margin: 0;
 }
 
-#parrot-title-element-role {
-
-}
+#parrot-title-element-role {}
 
 #parrot-outlinks {
   display: flex;
@@ -46,6 +45,12 @@ a {
   max-height: 100%;
   max-width: 100%;
 }
+
+.parrot-outlink-main-text {
+  font-weight: bolder;
+}
+
+.parrot-outlink-additional-text {}
 
 #parrot-footer {
   text-align: center;
