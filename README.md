@@ -1,7 +1,9 @@
 Parrot
 ======
 
-React.js frontend for [MikeGreen.net](https://MikeGreen.net)
+React.js frontend for [MikeGreen.net](https://MikeGreen.net).
+
+Domain migration pending, currently hosted at: [https://mike-green-parrot.herokuapp.com/](https://mike-green-parrot.herokuapp.com/)
 
 # Usage
 * `npm start`: Runs the app on [http://localhost:3000](http://localhost:3000)
