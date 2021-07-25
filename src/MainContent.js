@@ -24,7 +24,7 @@ function MainContent() {
                 <a href="https://MyNameIsMikeGreen.co.uk">
                     <img src={platypusLogo} alt="Platypus Logo"/>
                     <div className="parrot-outlink-main-text">MyNameIsMikeGreen.co.uk</div>
-                    <div className="parrot-outlink-main-text">Recipe Server</div>
+                    <div className="parrot-outlink-additional-text">Recipe Server</div>
                 </a>
             </div>
 
@@ -32,7 +32,7 @@ function MainContent() {
                 <a href="https://uk.linkedin.com/in/MyNameIsMikeGreen">
                     <img src={linkedInLogo} alt="LinkedIn Logo"/>
                     <div className="parrot-outlink-main-text">LinkedIn</div>
-                    <div className="parrot-outlink-main-text">Networking</div>
+                    <div className="parrot-outlink-additional-text">Networking</div>
                 </a>
             </div>
         </div>
