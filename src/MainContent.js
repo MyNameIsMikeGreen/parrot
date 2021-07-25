@@ -7,22 +7,22 @@ function MainContent() {
   return (
     <div id="parrot-main-content">
         <div id="parrot-title-block">
-            <div className="parrot-title-element"><h1>Mike Green</h1></div>
-            <div className="parrot-title-element"><h2>Software Engineer</h2></div>
+            <div className="parrot-title-element"><h1 id="parrot-title-element-name">Mike Green</h1></div>
+            <div className="parrot-title-element"><h2 id="parrot-title-element-role">Software Engineer</h2></div>
         </div>
 
         <div id="parrot-outlinks">
             <div className="parrot-outlink">
-                <a href="https://MyNameIsMikeGreen.co.uk">
-                    <img src={platypusLogo} alt="Platypus Logo"/>
-                    MyNameIsMikeGreen.co.uk (Food Recipes)
+                <a href="https://github.com/MyNameIsMikeGreen">
+                    <img src={githubLogo} alt="GitHub Logo"/>
+                    GitHub
                 </a>
             </div>
 
             <div className="parrot-outlink">
-                <a href="https://github.com/MyNameIsMikeGreen">
-                    <img src={githubLogo} alt="GitHub Logo"/>
-                    GitHub
+                <a href="https://MyNameIsMikeGreen.co.uk">
+                    <img src={platypusLogo} alt="Platypus Logo"/>
+                    MyNameIsMikeGreen.co.uk (Food Recipes)
                 </a>
             </div>
 

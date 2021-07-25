@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: "Karma", sans-serif;
+  font-family: HelveNueThinNormal, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -16,10 +16,18 @@ a {
 #parrot-title-block {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1em;
+  margin-bottom: 3em;
+  margin-top: 8em;
 }
 
-.parrot-title-element {}
+#parrot-title-element-name {
+  font-size: xxx-large;
+  margin: 0;
+}
+
+#parrot-title-element-role {
+
+}
 
 #parrot-outlinks {
   display: flex;
@@ -41,9 +49,18 @@ a {
 
 #parrot-footer {
   text-align: center;
-  margin-top: 30px;
-  padding-top: 10px;
-  border-top-width: 1px;
-  border-top-style: solid;
+  margin-top: 8em;
   font-size: small;
+}
+
+@font-face {
+  font-family: 'HelveNueThinNormal';
+  src: url('https://storage.googleapis.com/xprs_resources/fonts/helveticaneuethn-webfont.eot');
+  src: url('https://storage.googleapis.com/xprs_resources/fonts/helveticaneuethn-webfont.eot?iefix') format('eot'),
+  url('https://storage.googleapis.com/xprs_resources/fonts/helveticaneuethn-webfont.woff') format('woff'),
+  url('https://storage.googleapis.com/xprs_resources/fonts/helveticaneuethn-webfont.ttf') format('truetype'),
+  url('https://storage.googleapis.com/xprs_resources/fonts/helveticaneuethn-webfont.svg#webfontJR0GaG5Z')
+  format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
