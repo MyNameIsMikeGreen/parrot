@@ -1,7 +1,7 @@
 Parrot
 ======
 
-React.js frontend for [MikeGreen.net](MikeGreen.net).
+React.js frontend for [MikeGreen.net](https://www.MikeGreen.net).
 
 # Usage
 * `npm start`: Runs the app on [http://localhost:3000](http://localhost:3000)
