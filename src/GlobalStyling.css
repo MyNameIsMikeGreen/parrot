@@ -37,8 +37,7 @@ a {
 
 .parrot-outlink {
   width: 400px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 2em 1em;
 }
 
 .parrot-outlink img {
@@ -68,4 +67,10 @@ a {
   format('svg');
   font-weight: normal;
   font-style: normal;
+}
+
+@media (orientation: portrait) {
+  #parrot-outlinks {
+    flex-direction: column;
+  }
 }
