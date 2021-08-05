@@ -11,7 +11,7 @@ function Body() {
       <Switch>
         <Route exact path='/' component={LandingPage}/>
         <Route exact path='/blog' component={Blog}/>
-        <Route exact path='/blog/*' component={BlogPost}/>
+        <Route exact path='/blog/:title' component={BlogPost}/>
         <Route path='*' component={NotFound}/>
       </Switch>
   );

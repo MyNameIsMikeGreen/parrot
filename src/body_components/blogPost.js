@@ -1,9 +1,11 @@
 import * as React from "react";
-import {render} from "react-dom";
 import ReactMarkdown from "react-markdown";
+import {useParams} from "react-router-dom";
 
 function BlogPost() {
-    const markdownUrl = "https://raw.githubusercontent.com/MyNameIsMikeGreen/tech-notes/master/how-tos/Hosting_a_React_app_with_Cloudflare_Pages.md";
+    let { title } = useParams();
+    // Hosting_a_React_app_with_Cloudflare_Pages
+    const markdownUrl = "https://raw.githubusercontent.com/MyNameIsMikeGreen/tech-notes/master/how-tos/" + title + ".md";
     const [markdown, setMarkdown] = React.useState('');
 
     React.useEffect(() => {
@@ -18,7 +20,7 @@ function BlogPost() {
         fetchMarkdown();
     });
 
-    return render(<ReactMarkdown>{markdown}</ReactMarkdown>, document.body);
+    return (<ReactMarkdown>{markdown}</ReactMarkdown>);
 }
 
 export default BlogPost;
