@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import MainContent from '../MainContent';
+import Body from '../MainContent';
 
 test('page has title block', () => {
-  render(<MainContent />);
+  render(<Body />);
 
   const titleBlock = document.querySelector("#parrot-title-block");
 
@@ -15,7 +15,7 @@ test('page has title block', () => {
 });
 
 test('Platypus has outlink', async () => {
-  render(<MainContent />);
+  render(<Body />);
   const platypusLogo = await screen.findByAltText("Platypus Logo");
   expect(platypusLogo).toHaveAttribute("src", "Platypus_Logo.png");
   expect(platypusLogo.parentElement).toHaveAttribute("href", "https://MyNameIsMikeGreen.co.uk")
@@ -31,7 +31,7 @@ test('Platypus has outlink', async () => {
 });
 
 test('GitHub has outlink', async () => {
-  render(<MainContent />);
+  render(<Body />);
   const githubLogo = await screen.findByAltText("GitHub Logo");
   expect(githubLogo).toHaveAttribute("src", "GitHub_Logo.png");
   expect(githubLogo.parentElement).toHaveAttribute("href", "https://github.com/MyNameIsMikeGreen")
@@ -46,7 +46,7 @@ test('GitHub has outlink', async () => {
 });
 
 test('LinkedIn has outlink', async () => {
-  render(<MainContent />);
+  render(<Body />);
   const linkedinLogo = await screen.findByAltText("LinkedIn Logo")
   expect(linkedinLogo).toHaveAttribute("src", "LinkedIn_Logo.png");
   expect(linkedinLogo.parentElement).toHaveAttribute("href", "https://uk.linkedin.com/in/MyNameIsMikeGreen")

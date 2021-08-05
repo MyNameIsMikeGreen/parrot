@@ -1,16 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './GlobalStyling.css';
-import MainContent from './MainContent';
-import reportWebVitals from './reportWebVitals';
-import Footer from "./Footer";
+import { BrowserRouter } from 'react-router-dom';
+import Body from "./body";
+import Footer from "./footer";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <MainContent />
-    <Footer/>
-  </React.StrictMode>,
-  document.getElementById('root')
+ReactDOM.render((
+        <BrowserRouter>
+            <Body />
+            <Footer />
+        </BrowserRouter>
+    ), document.getElementById('root')
 );
-
-reportWebVitals();
