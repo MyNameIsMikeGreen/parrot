@@ -2,7 +2,7 @@ import * as React from "react";
 import {render} from "react-dom";
 import ReactMarkdown from "react-markdown";
 
-function MarkdownPost() {
+function BlogPost() {
     const markdownUrl = "https://raw.githubusercontent.com/MyNameIsMikeGreen/tech-notes/master/how-tos/Hosting_a_React_app_with_Cloudflare_Pages.md";
     const [markdown, setMarkdown] = React.useState('');
 
@@ -21,4 +21,4 @@ function MarkdownPost() {
     return render(<ReactMarkdown>{markdown}</ReactMarkdown>, document.body);
 }
 
-export default MarkdownPost;
+export default BlogPost;
