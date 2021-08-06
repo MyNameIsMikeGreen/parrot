@@ -4,14 +4,15 @@ import {useParams} from "react-router-dom";
 
 function BlogPost() {
     let { title } = useParams();
-    // Hosting_a_React_app_with_Cloudflare_Pages
-    const markdownUrl = "https://raw.githubusercontent.com/MyNameIsMikeGreen/tech-notes/master/how-tos/" + title + ".md";
+    const markdownUrl = "https://raw.githubusercontent.com/MyNameIsMikeGreen/blog/master/posts/" + title + ".md";
+    console.log(markdownUrl);
     const [markdown, setMarkdown] = React.useState('');
 
     React.useEffect(() => {
         const fetchMarkdown = async () => {
             const response = await fetch(markdownUrl);
             const text = await response.text();
+            console.log(text)
             setMarkdown(text);
         };
         fetchMarkdown();
