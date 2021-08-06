@@ -14,7 +14,7 @@ function Blog() {
     }
 
     return (
-        <div id="parrot-blog-post-list">
+        <div id="parrot-blog-post-list" data-testid="parrot-blog-post-list">
             <ul>
                 {blogPostTitles.map((title, i) =>
                     <li key={i}><a href={"/blog/" + title}>{userReadableTitle(title)}</a></li>
@@ -34,7 +34,6 @@ async function fetchBlogTitles(setter) {
     let titles = [];
     const response = await axios(repoTreeUrl);
     const responseJson = response.data;
-    console.log(responseJson);
     for (let i = 0; i < responseJson.tree.length; i++) {
         if (responseJson.tree[i].path.startsWith("posts/")) {
             titles.push(responseJson.tree[i].path.substring(6, responseJson.tree[i].path.length - 3));
