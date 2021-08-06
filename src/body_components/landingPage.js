@@ -6,11 +6,6 @@ import * as React from "react";
 function LandingPage() {
     return (
         <div id="parrot-main-content">
-            <div id="parrot-title-block">
-                <div className="parrot-title-element"><h1 id="parrot-title-element-name">Mike Green</h1></div>
-                <div className="parrot-title-element"><h2 id="parrot-title-element-role">Software Engineer</h2></div>
-            </div>
-
             <div id="parrot-outlinks">
                 <div className="parrot-outlink">
                     <a href="https://github.com/MyNameIsMikeGreen">
