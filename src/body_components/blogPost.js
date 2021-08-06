@@ -6,7 +6,7 @@ function BlogPost() {
     let { title } = useParams();
     const markdownUrl = "https://raw.githubusercontent.com/MyNameIsMikeGreen/blog/master/posts/" + title + ".md";
     console.log(markdownUrl);
-    const [markdown, setMarkdown] = React.useState('');
+    const [markdown, setMarkdown] = React.useState('Fetching blog post...');
 
     React.useEffect(() => {
         const fetchMarkdown = async () => {
@@ -18,7 +18,11 @@ function BlogPost() {
         fetchMarkdown();
     });
 
-    return (<ReactMarkdown>{markdown}</ReactMarkdown>);
+    return (
+        <div id="parrot-blog-post">
+            <ReactMarkdown>{markdown}</ReactMarkdown>
+        </div>
+    );
 }
 
 export default BlogPost;

@@ -14,11 +14,13 @@ function Blog() {
     }
 
     return (
-        <ul>
-            {blogPostTitles.map((title, i) =>
-                <li key={i}><a href={"/blog/" + title}>{userReadableTitle(title)}</a></li>
-            )}
-        </ul>
+        <div id="parrot-blog-post-list">
+            <ul>
+                {blogPostTitles.map((title, i) =>
+                    <li key={i}><a href={"/blog/" + title}>{userReadableTitle(title)}</a></li>
+                )}
+            </ul>
+        </div>
     );
 
 }

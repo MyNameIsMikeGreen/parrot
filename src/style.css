@@ -39,13 +39,15 @@ a {
 }
 
 #parrot-main-content {
-  text-align: center;
+  padding-left: 10em;
+  padding-right: 10em;
 }
 
 #parrot-outlinks {
   display: flex;
   flex-direction: row;
   align-items: center;
+  text-align: center;
   justify-content: center;
   margin-top: 6em;
 }
@@ -65,6 +67,11 @@ a {
 }
 
 .parrot-outlink-additional-text {}
+
+#parrot-blog-post {
+  padding: 1em;
+  border: 1px dashed grey;
+}
 
 #parrot-footer {
   text-align: center;

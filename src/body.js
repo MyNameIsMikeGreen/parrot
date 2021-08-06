@@ -7,14 +7,16 @@ import NotFound from "./body_components/notFound";
 import Blog from "./body_components/blog";
 
 function Body() {
-  return (
-      <Switch>
-        <Route exact path='/' component={LandingPage}/>
-        <Route exact path='/blog' component={Blog}/>
-        <Route exact path='/blog/:title' component={BlogPost}/>
-        <Route path='*' component={NotFound}/>
-      </Switch>
-  );
+    return (
+        <div id="parrot-main-content">
+            <Switch>
+                <Route exact path='/' component={LandingPage}/>
+                <Route exact path='/blog' component={Blog}/>
+                <Route exact path='/blog/:title' component={BlogPost}/>
+                <Route path='*' component={NotFound}/>
+            </Switch>
+        </div>
+    );
 }
 
 export default Body;
