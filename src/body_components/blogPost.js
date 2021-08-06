@@ -13,10 +13,7 @@ function BlogPost() {
             const response = await fetch(markdownUrl);
             const text = await response.text();
             setMarkdown(text);
-
-            console.log({ text, response });
         };
-
         fetchMarkdown();
     });
 
