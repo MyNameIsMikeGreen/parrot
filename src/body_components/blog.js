@@ -8,7 +8,6 @@ function Blog() {
     const [blogPostTitles, setBlogPostTitles] = React.useState([]);
 
     React.useEffect(() => {
-        let isMounted = true;
         fetchBlogTitles(setBlogPostTitles)
     }, []);
 
@@ -29,7 +28,7 @@ function Blog() {
 }
 
 function userReadableTitle(originalTitle) {
-    return originalTitle.replaceAll("_", " ");
+    return originalTitle.replace(/_/g, " ");
 }
 
 async function fetchBlogTitles(setter) {
