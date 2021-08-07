@@ -6,6 +6,7 @@ function Blog() {
     const [blogPostTitles, setBlogPostTitles] = React.useState([]);
 
     React.useEffect(() => {
+        let isMounted = true;
         fetchBlogTitles(setBlogPostTitles)
     }, []);
 
