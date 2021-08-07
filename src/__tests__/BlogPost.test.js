@@ -1,7 +1,7 @@
 import {findByText, render, screen} from '@testing-library/react';
-import BlogPost from "../body_components/blogPost";
 import {MemoryRouter, Route} from "react-router-dom";
 import React from "react";
+import BlogPost from "../body_components/blogPost";
 
 test('loading message displayed when searching for post', () => {
     render(

@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import TitleBar from "../titleBar";
 
 test('name and role link to homepage', () => {
