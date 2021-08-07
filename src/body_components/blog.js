@@ -1,6 +1,8 @@
 import * as React from "react";
 import axios from 'axios';
 
+const BLOG_REPO_TREE_URL = "https://api.github.com/repos/MyNameIsMikeGreen/blog/git/trees/master?recursive=1";
+
 function Blog() {
 
     const [blogPostTitles, setBlogPostTitles] = React.useState([]);
@@ -31,9 +33,8 @@ function userReadableTitle(originalTitle) {
 }
 
 async function fetchBlogTitles(setter) {
-    const repoTreeUrl = "https://api.github.com/repos/MyNameIsMikeGreen/blog/git/trees/master?recursive=1";
     let titles = [];
-    const response = await axios(repoTreeUrl);
+    const response = await axios(BLOG_REPO_TREE_URL);
     const responseJson = response.data;
     for (let i = 0; i < responseJson.tree.length; i++) {
         if (responseJson.tree[i].path.startsWith("posts/")) {
