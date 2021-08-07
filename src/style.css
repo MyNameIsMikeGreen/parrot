@@ -10,29 +10,46 @@ a {
   color: black;
 }
 
-#parrot-main-content {
+#parrot-titlebar {
   text-align: center;
-}
-
-#parrot-title-block {
-  display: flex;
-  flex-direction: column;
+  padding-top: 3em;
   margin-bottom: 3em;
-  margin-top: 8em;
 }
 
-#parrot-title-element-name {
+#parrot-titlebar-title-block {
+}
+
+#parrot-titlebar-title-name {
   font-size: xxx-large;
   margin: 0;
 }
 
-#parrot-title-element-role {}
+#parrot-titlebar-title-role {}
+
+#parrot-titlebar-navigation-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 3em;
+}
+
+.parrot-titlebar-navigation-button {
+  font-size: larger;
+  padding-bottom: 0.5em;
+}
+
+#parrot-main-content {
+  padding-left: 10em;
+  padding-right: 10em;
+}
 
 #parrot-outlinks {
   display: flex;
   flex-direction: row;
   align-items: center;
+  text-align: center;
   justify-content: center;
+  margin-top: 6em;
 }
 
 .parrot-outlink {
@@ -50,6 +67,11 @@ a {
 }
 
 .parrot-outlink-additional-text {}
+
+#parrot-blog-post {
+  padding: 1em;
+  border: 1px dashed grey;
+}
 
 #parrot-footer {
   text-align: center;

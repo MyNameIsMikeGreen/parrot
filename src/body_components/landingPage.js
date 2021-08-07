@@ -1,16 +1,10 @@
-import './GlobalStyling.css';
-import platypusLogo from './media/Platypus_Logo.png'
-import githubLogo from './media/GitHub_Logo.png'
-import linkedInLogo from './media/LinkedIn_Logo.png'
+import githubLogo from "../media/GitHub_Logo.png";
+import platypusLogo from "../media/Platypus_Logo.png";
+import linkedInLogo from "../media/LinkedIn_Logo.png";
+import * as React from "react";
 
-function MainContent() {
-  return (
-    <div id="parrot-main-content">
-        <div id="parrot-title-block">
-            <div className="parrot-title-element"><h1 id="parrot-title-element-name">Mike Green</h1></div>
-            <div className="parrot-title-element"><h2 id="parrot-title-element-role">Software Engineer</h2></div>
-        </div>
-
+function LandingPage() {
+    return (
         <div id="parrot-outlinks">
             <div className="parrot-outlink">
                 <a href="https://github.com/MyNameIsMikeGreen">
@@ -36,8 +30,7 @@ function MainContent() {
                 </a>
             </div>
         </div>
-    </div>
-  );
+    );
 }
 
-export default MainContent;
+export default LandingPage;
