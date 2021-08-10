@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Footer from "../footer";
+import Footer from "../components/Footer";
 
 test('contains copyright block extending to current year', () => {
   render(<Footer />);
