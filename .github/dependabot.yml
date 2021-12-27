@@ -6,3 +6,4 @@ updates:
       interval: "daily"
     reviewers:
       - MyNameIsMikeGreen
+    open-pull-requests-limit: 10
