@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 test('contains copyright block extending to current year', () => {
   render(<Footer />);
   const currentYear = new Date().getFullYear()
-  expect(screen.getByText(`© Copyright 2020-${currentYear} Mike Green`)).toBeInTheDocument()
+  expect(screen.getByText(`© Copyright 2020-${currentYear} Mike Green Solutions`)).toBeInTheDocument()
 });
 
 test('contains link to github project page', () => {

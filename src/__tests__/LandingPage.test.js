@@ -46,3 +46,19 @@ test('LinkedIn has outlink', async () => {
   expect(linkedinAdditionalText).toHaveTextContent("Networking");
   expect(linkedinAdditionalText.parentElement).toHaveAttribute("href", "https://uk.linkedin.com/in/MyNameIsMikeGreen")
 });
+
+
+test('Upwork has outlink', async () => {
+  render(<Links />);
+  const upworkLogo = await screen.findByAltText("Upwork Logo")
+  expect(upworkLogo).toHaveAttribute("src", "Upwork_Logo.png");
+  expect(upworkLogo.parentElement).toHaveAttribute("href", "https://www.upwork.com/freelancers/~01cb90daab1cd69c1c")
+
+  const upworkMainText = upworkLogo.nextSibling;
+  expect(upworkMainText).toHaveTextContent("Upwork");
+  expect(upworkMainText.parentElement).toHaveAttribute("href", "https://www.upwork.com/freelancers/~01cb90daab1cd69c1c")
+
+  const upworkAdditionalText = upworkMainText.nextSibling;
+  expect(upworkAdditionalText).toHaveTextContent("Hire Me!");
+  expect(upworkAdditionalText.parentElement).toHaveAttribute("href", "https://www.upwork.com/freelancers/~01cb90daab1cd69c1c")
+});

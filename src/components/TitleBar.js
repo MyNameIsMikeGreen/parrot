@@ -8,10 +8,10 @@ export default class TitleBar extends React.Component {
             <div id="parrot-titlebar">
                 <div id="parrot-titlebar-title-block">
                     <div className="parrot-titlebar-title-element">
-                        <h1 id="parrot-titlebar-title-name"><a href="/">Mike Green</a></h1>
+                        <h1 id="parrot-titlebar-title-name"><a href="/">Mike Green Solutions</a></h1>
                     </div>
                     <div className="parrot-titlebar-title-element">
-                        <h2 id="parrot-titlebar-title-role"><a href="/">Software Engineer</a></h2>
+                        <h2 id="parrot-titlebar-title-role"><a href="/">Software Freelancing</a></h2>
                     </div>
                 </div>
                 <div id="parrot-titlebar-navigation-buttons">

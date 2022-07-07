@@ -3,8 +3,8 @@ import TitleBar from "../components/TitleBar";
 
 test('name and role link to homepage', () => {
   render(<TitleBar />);
-  expect(screen.getByText(`Mike Green`)).toHaveAttribute("href", "/")
-  expect(screen.getByText(`Software Engineer`)).toHaveAttribute("href", "/")
+  expect(screen.getByText(`Mike Green Solutions`)).toHaveAttribute("href", "/")
+  expect(screen.getByText(`Software Freelancing`)).toHaveAttribute("href", "/")
 });
 
 test('blog button links to blog page', () => {

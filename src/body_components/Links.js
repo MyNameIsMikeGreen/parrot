@@ -1,4 +1,5 @@
 import githubLogo from "../media/GitHub_Logo.png";
+import upworkLogo from "../media/Upwork_Logo.png";
 import platypusLogo from "../media/Platypus_Logo.png";
 import linkedInLogo from "../media/LinkedIn_Logo.png";
 import * as React from "react";
@@ -8,6 +9,14 @@ export default class Links extends React.Component {
     render() {
         return (
             <div id="parrot-outlinks">
+                <div className="parrot-outlink">
+                    <a href="https://www.upwork.com/freelancers/~01cb90daab1cd69c1c">
+                        <img src={upworkLogo} alt="Upwork Logo"/>
+                        <div className="parrot-outlink-main-text">Upwork</div>
+                        <div className="parrot-outlink-additional-text">Hire Me!</div>
+                    </a>
+                </div>
+
                 <div className="parrot-outlink">
                     <a href="https://github.com/MyNameIsMikeGreen">
                         <img src={githubLogo} alt="GitHub Logo"/>
