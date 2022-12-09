@@ -8,19 +8,12 @@ export default class Links extends React.Component {
     render() {
         return (
             <div id="parrot-outlinks">
+
                 <div className="parrot-outlink">
                     <a href="https://github.com/MyNameIsMikeGreen">
                         <img src={githubLogo} alt="GitHub Logo"/>
                         <div className="parrot-outlink-main-text">GitHub</div>
                         <div className="parrot-outlink-additional-text">Software Projects</div>
-                    </a>
-                </div>
-
-                <div className="parrot-outlink">
-                    <a href="https://MyNameIsMikeGreen.co.uk">
-                        <img src={platypusLogo} alt="Platypus Logo"/>
-                        <div className="parrot-outlink-main-text">MyNameIsMikeGreen.co.uk</div>
-                        <div className="parrot-outlink-additional-text">Recipe Server</div>
                     </a>
                 </div>
 
@@ -31,6 +24,7 @@ export default class Links extends React.Component {
                         <div className="parrot-outlink-additional-text">Networking</div>
                     </a>
                 </div>
+
             </div>
         );
     }

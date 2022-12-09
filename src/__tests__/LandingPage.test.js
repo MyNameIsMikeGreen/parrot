@@ -1,22 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Links from "../body_components/Links";
 
-test('Platypus has outlink', async () => {
-  render(<Links />);
-  const platypusLogo = await screen.findByAltText("Platypus Logo");
-  expect(platypusLogo).toHaveAttribute("src", "Platypus_Logo.png");
-  expect(platypusLogo.parentElement).toHaveAttribute("href", "https://MyNameIsMikeGreen.co.uk")
-
-  const platypusMainText = platypusLogo.nextSibling
-  expect(platypusMainText).toHaveTextContent("MyNameIsMikeGreen.co.uk");
-  expect(platypusMainText.parentElement).toHaveAttribute("href", "https://MyNameIsMikeGreen.co.uk")
-
-  const platypusAdditionalText = platypusMainText.nextSibling;
-  expect(platypusAdditionalText).toHaveTextContent("Recipe Server");
-  expect(platypusAdditionalText.parentElement).toHaveAttribute("href", "https://MyNameIsMikeGreen.co.uk")
-
-});
-
 test('GitHub has outlink', async () => {
   render(<Links />);
   const githubLogo = await screen.findByAltText("GitHub Logo");

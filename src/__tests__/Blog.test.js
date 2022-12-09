@@ -16,7 +16,7 @@ test('contains list of links to GitHub blog repo once searching has completed', 
 
     for (let i = 0; i < blogPostListDiv.children.length; i++) {
         const blogPostLink = blogPostListDiv.children[i].firstChild.firstChild;
-        expect(blogPostLink).toHaveAttribute("href", expect.stringMatching(/^\/blog\/[A-Za-z|_\-()]+$/))
+        expect(blogPostLink).toHaveAttribute("href", expect.stringContaining("/blog/"))
     }
 
 });
