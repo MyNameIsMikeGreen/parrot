@@ -34,6 +34,7 @@ function userReadableTitle(originalTitle) {
 function isFileInPostsFolder(treeElement) {
     return treeElement.path.startsWith("posts/")
         && treeElement.path.split("/").length === 2
+        && treeElement.path.endsWith(".md")
         && treeElement.type === "blob";
 }
 
