@@ -31,13 +31,21 @@ function userReadableTitle(originalTitle) {
     return originalTitle.replace(/_/g, " ");
 }
 
+function isFileInPostsFolder(treeElement) {
+    return treeElement.path.startsWith("posts/")
+        && treeElement.path.split("/").length === 2
+        && treeElement.type === "blob";
+}
+
 async function fetchBlogTitles(setter) {
     let titles = [];
     const response = await axios(BLOG_REPO_TREE_URL);
     const responseJson = response.data;
     for (let i = 0; i < responseJson.tree.length; i++) {
-        if (responseJson.tree[i].path.startsWith("posts/")) {
-            titles.push(responseJson.tree[i].path.substring(6, responseJson.tree[i].path.length - 3));
+        let treeElement = responseJson.tree[i]
+        if (isFileInPostsFolder(treeElement)) {
+            let filePath = treeElement.path;
+            titles.push(filePath.substring(6, filePath.length - 3));
         }
     }
     setter(titles);
