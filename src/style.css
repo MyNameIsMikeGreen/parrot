@@ -57,6 +57,12 @@ a {
   padding: 2em 3em;
 }
 
+.parrot-outlink-private-network-text {
+    color: red;
+    font-style: italic;
+    font-size: smaller;
+}
+
 .parrot-outlink img {
   max-height: 100%;
   max-width: 100%;
