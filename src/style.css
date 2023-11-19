@@ -57,8 +57,9 @@ a {
   padding: 2em 3em;
 }
 
-.parrot-outlink-private.parrot-outlink-main-text {
-  color: red;
+.parrot-outlink-private-network-text {
+    color: red;
+    font-style: italic;
 }
 
 .parrot-outlink img {
