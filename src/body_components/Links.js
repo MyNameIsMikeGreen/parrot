@@ -26,18 +26,22 @@ export default class Links extends React.Component {
                 </div>
 
                 <div className="parrot-outlink">
-                    <a href="http://pi:8001">
-                        <img src={platypusLogo} alt="Platypus Logo"/>
-                        <div className="parrot-outlink-main-text">Platypus</div>
-                        <div className="parrot-outlink-additional-text">Private Network Only: Recipes</div>
-                    </a>
+                    <div className="parrot-outlink-private">
+                        <a href="http://pi:8001">
+                            <img src={platypusLogo} alt="Platypus Logo"/>
+                            <div className="parrot-outlink-main-text">Platypus</div>
+                            <div className="parrot-outlink-additional-text">Private Network Only: Recipes</div>
+                        </a>
+                    </div>
                 </div>
 
                 <div className="parrot-outlink">
-                    <a href="http://pi:8000">
-                        <div className="parrot-outlink-main-text">Pelican</div>
-                        <div className="parrot-outlink-additional-text">Private Network Only: Media Server Control</div>
-                    </a>
+                    <div className="parrot-outlink-private">
+                        <a href="http://pi:8000">
+                            <div className="parrot-outlink-main-text">Pelican</div>
+                            <div className="parrot-outlink-additional-text">Private Network Only: Media Server Control</div>
+                        </a>
+                    </div>
                 </div>
 
             </div>
