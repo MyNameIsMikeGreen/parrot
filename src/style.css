@@ -60,6 +60,7 @@ a {
 .parrot-outlink-private-network-text {
     color: red;
     font-style: italic;
+    font-size: smaller;
 }
 
 .parrot-outlink img {
