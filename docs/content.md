@@ -122,7 +122,7 @@ export const site = {
   name: 'Mike Green',
   role: 'Software Engineer',
   description:
-    'Mike Green, a software engineer based in the UK. Where to find me online, and an occasional blog about software.',
+    'Mike Green, a (very-skilled... and modest) software engineer based in the UK.',
   foundedYear: 2020,
   sourceRepositoryUrl: 'https://github.com/MyNameIsMikeGreen/parrot',
 };

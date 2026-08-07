@@ -16,7 +16,7 @@ test.describe('landing page', () => {
 
     await expect(card).toHaveAttribute('href', 'https://github.com/MyNameIsMikeGreen');
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
-    await expect(card).toContainText('Software projects');
+    await expect(card).toContainText('Software Projects');
   });
 
   test('links to LinkedIn', async ({ page }) => {
@@ -42,7 +42,7 @@ test.describe('landing page', () => {
     const card = page.getByRole('link', { name: /Home Assistant/ });
 
     await expect(card).toHaveAttribute('href', 'http://pi:8123');
-    await expect(card).toContainText('Home automation');
+    await expect(card).toContainText('Home Automation');
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
   });
 
@@ -50,7 +50,7 @@ test.describe('landing page', () => {
     const card = page.getByRole('link', { name: /Zigbee2MQTT/ });
 
     await expect(card).toHaveAttribute('href', 'http://pi:8080');
-    await expect(card).toContainText('Zigbee devices');
+    await expect(card).toContainText('Zigbee Devices');
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
   });
 
@@ -61,8 +61,9 @@ test.describe('landing page', () => {
     const homeSection = page.getByRole('region', { name: 'On my home network' });
 
     await expect(publicSection).toBeVisible();
+    await expect(publicSection).toContainText('Public profiles');
     await expect(homeSection).toBeVisible();
-    await expect(homeSection).toContainText('only answer from inside my home network');
+    await expect(homeSection).toContainText('Private projects');
 
     await expect(publicSection.getByRole('link')).toHaveText([/GitHub/, /LinkedIn/]);
     await expect(homeSection.getByRole('link')).toHaveText([

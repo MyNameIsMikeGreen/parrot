@@ -33,7 +33,7 @@ export interface OutboundLink {
  * A group of links on the landing page.
  *
  * Sections exist to separate what a visitor can actually open from what only
- * responds on the home network, so nobody is left clicking a link that was
+ * responds on the home network, so nobody is clicking a link that was
  * never going to work for them.
  */
 export interface LinkSection {
@@ -49,7 +49,7 @@ export const site = {
   name: 'Mike Green',
   role: 'Software Engineer',
   description:
-    'Mike Green, a software engineer based in the UK. Where to find me online, and an occasional blog about software.',
+    'Mike Green, a (very-skilled... and modest) software engineer based in the UK.',
   /** Year the site first went live, used by the footer copyright range. */
   foundedYear: 2020,
   sourceRepositoryUrl: 'https://github.com/MyNameIsMikeGreen/parrot',
@@ -63,7 +63,7 @@ export const navigation = [
 export const outboundLinks: readonly OutboundLink[] = [
   {
     name: 'GitHub',
-    description: 'Software projects',
+    description: 'Software Projects',
     href: 'https://github.com/MyNameIsMikeGreen',
     icon: 'github.svg',
     profile: true,
@@ -84,14 +84,14 @@ export const outboundLinks: readonly OutboundLink[] = [
   },
   {
     name: 'Home Assistant',
-    description: 'Home automation',
+    description: 'Home Automation',
     href: 'http://pi:8123',
     icon: 'home-assistant.svg',
     privateNetworkOnly: true,
   },
   {
     name: 'Zigbee2MQTT',
-    description: 'Zigbee devices',
+    description: 'Zigbee Devices',
     href: 'http://pi:8080',
     icon: 'zigbee2mqtt.svg',
     privateNetworkOnly: true,
@@ -102,14 +102,14 @@ export const linkSections: readonly LinkSection[] = [
   {
     id: 'public',
     heading: 'Around the web',
-    description: 'Public profiles, open to anyone.',
+    description: 'Public profiles - open to anyone.',
     privateNetworkOnly: false,
   },
   {
     id: 'home-network',
     heading: 'On my home network',
     description:
-      'Things I self-host. These only answer from inside my home network, so they will not open for you.',
+      'Private projects - only accessible on my home network to me or my guests.',
     privateNetworkOnly: true,
   },
 ];
