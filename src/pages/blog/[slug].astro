@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BlogUnavailableError, getPost } from '../../lib/blog';
+import { blogOptions } from '../../lib/blog-config';
+import { BLOG_CACHE_CONTROL } from '../../lib/cache';
+import { toSlug } from '../../lib/slug';
+import { blogPostingSchema, breadcrumbSchema } from '../../lib/structured-data';
+
+import type { BlogPost } from '../../lib/blog';
+
+// Rendered per request so that edits to a post appear without redeploying.
+export const prerender = false;
+
+const requestedSlug = Astro.params.slug ?? '';
+const canonicalSlug = toSlug(requestedSlug);
+
+// Older links used the raw filename (e.g. `My_First_Post`). Send them to the
+// canonical slug rather than breaking bookmarks.
+if (canonicalSlug !== requestedSlug) {
+  return canonicalSlug
+    ? Astro.redirect(`/blog/${canonicalSlug}`, 301)
+    : Astro.redirect('/blog', 301);
+}
+
+let post: BlogPost | null = null;
+let unavailable = false;
+
+try {
+  post = await getPost(canonicalSlug, blogOptions());
+} catch (error) {
+  if (!(error instanceof BlogUnavailableError)) {
+    throw error;
+  }
+  unavailable = true;
+  console.error(`Could not load blog post "${canonicalSlug}"`, error);
+}
+
+if (unavailable) {
+  Astro.response.status = 503;
+} else if (post === null) {
+  Astro.response.status = 404;
+} else {
+  Astro.response.headers.set('Cache-Control', BLOG_CACHE_CONTROL);
+}
+
+const origin = Astro.site ?? Astro.url.origin;
+const pageUrl = new URL(Astro.url.pathname, origin).href;
+
+// A post's own opening words make a better search result summary than anything
+// generated from its title, so they are preferred when it has any.
+const description = post
+  ? (post.excerpt ?? `${post.title}, a post on the blog of Mike Green.`)
+  : undefined;
+
+const structuredData = post
+  ? [
+      blogPostingSchema(post, pageUrl, origin),
+      breadcrumbSchema(
+        [
+          { name: 'Home', path: '/' },
+          { name: 'Blog', path: '/blog' },
+          { name: post.title, path: `/blog/${canonicalSlug}` },
+        ],
+        origin,
+      ),
+    ]
+  : [];
+---
+
+<BaseLayout
+  title={post?.title ?? (unavailable ? 'Blog' : 'Post not found')}
+  description={description}
+  ogType={post ? 'article' : 'website'}
+  noindex={post === null || unavailable}
+  structuredData={structuredData}
+>
+  {
+    unavailable && (
+      <>
+        <h1 class="page-title">Post unavailable</h1>
+        <div class="notice">
+          <p>This post could not be loaded right now.</p>
+          <p>
+            Posts are read from GitHub when the page is requested, so this is usually
+            temporary. Please try again shortly, or <a href="/blog">return to the blog</a>
+            .
+          </p>
+        </div>
+      </>
+    )
+  }
+
+  {
+    !unavailable && post === null && (
+      <>
+        <h1 class="page-title">Post not found</h1>
+        <p class="page-intro">
+          There is no post at this address. It may have been renamed.
+        </p>
+        <p>
+          <a href="/blog">Browse all posts</a>
+        </p>
+      </>
+    )
+  }
+
+  {
+    post && (
+      <article class="post">
+        <h1 class="page-title">{post.title}</h1>
+        <div class="post__body" set:html={post.html} />
+        <p class="post__source">
+          <a href={post.sourceUrl} rel="noopener noreferrer">
+            View the source of this post on GitHub
+          </a>
+        </p>
+      </article>
+    )
+  }
+</BaseLayout>

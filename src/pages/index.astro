@@ -1,0 +1,37 @@
+---
+import LinkCard from '../components/LinkCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { linkSections, linksInSection, site } from '../lib/site';
+import { profilePageSchema } from '../lib/structured-data';
+
+// Sections with nothing in them are dropped, so removing the last private
+// service does not leave a stray heading behind.
+const sections = linkSections
+  .map((section) => ({ section, links: linksInSection(section) }))
+  .filter(({ links }) => links.length > 0);
+
+const origin = Astro.site ?? Astro.url.origin;
+---
+
+<BaseLayout structuredData={[profilePageSchema(origin)]}>
+  <h1 class="page-title">{site.name}</h1>
+  <p class="page-intro">
+    {site.role} based in the UK. Here is where to find me and the things I run.
+  </p>
+
+  {
+    sections.map(({ section, links }) => (
+      <section class="link-section" aria-labelledby={`${section.id}-heading`}>
+        <h2 class="link-section__heading" id={`${section.id}-heading`}>
+          {section.heading}
+        </h2>
+        <p class="link-section__description">{section.description}</p>
+        <ul class="link-grid">
+          {links.map((link) => (
+            <LinkCard link={link} />
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</BaseLayout>

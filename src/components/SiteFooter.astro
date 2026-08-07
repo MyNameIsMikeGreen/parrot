@@ -1,0 +1,20 @@
+---
+import { site } from '../lib/site';
+
+const currentYear = new Date().getFullYear();
+const copyrightYears =
+  currentYear > site.foundedYear
+    ? `${site.foundedYear}-${currentYear}`
+    : `${site.foundedYear}`;
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p>&copy; Copyright {copyrightYears} {site.name}</p>
+    <p>
+      <a href={site.sourceRepositoryUrl} rel="noopener noreferrer">
+        Source code for this website
+      </a>
+    </p>
+  </div>
+</footer>

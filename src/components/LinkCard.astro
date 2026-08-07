@@ -1,0 +1,49 @@
+---
+import type { OutboundLink } from '../lib/site';
+
+interface Props {
+  link: OutboundLink;
+}
+
+const { link } = Astro.props;
+
+// Icons are inlined as markup rather than loaded as images, so they can be
+// drawn in the current text colour and follow the light and dark themes.
+const icons = import.meta.glob<string>('../assets/icons/*.svg', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+});
+const icon = icons[`../assets/icons/${link.icon}`];
+
+const rel = [
+  'noopener',
+  'noreferrer',
+  // Claims the profile as belonging to the site's owner. Mastodon and IndieAuth
+  // read this to verify the link when the profile points back here.
+  link.profile ? 'me' : null,
+  // Private hosts do not resolve outside the home network, so there is nothing
+  // for a crawler to find and no reason to send it looking.
+  link.privateNetworkOnly ? 'nofollow' : null,
+]
+  .filter((value) => value !== null)
+  .join(' ');
+---
+
+<li>
+  <a
+    class:list={['link-card', { 'link-card--private': link.privateNetworkOnly }]}
+    href={link.href}
+    rel={rel}
+  >
+    {/* Decorative: the link's name is announced from the text below. */}
+    <span class="link-card__icon" aria-hidden="true" set:html={icon} />
+    <span class="link-card__name">{link.name}</span>
+    <span class="link-card__description">{link.description}</span>
+    {
+      /* The section heading already says this, but somebody tabbing from link
+         to link never hears it, so repeat it for them alone. */
+      link.privateNetworkOnly && <span class="visually-hidden">Private network only</span>
+    }
+  </a>
+</li>

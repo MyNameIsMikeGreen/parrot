@@ -1,0 +1,76 @@
+---
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { site } from '../lib/site';
+import { serialiseJsonLd, type JsonLd } from '../lib/structured-data';
+import '../styles/global.css';
+
+interface Props {
+  /** Page-specific part of the document title. Omit on the landing page. */
+  title?: string | undefined;
+  description?: string | undefined;
+  /** `article` for a blog post, `website` for everything else. */
+  ogType?: 'website' | 'article';
+  /**
+   * Keeps the page out of search results. Set on error pages, whose status code
+   * already says the same thing, so that a page which looks like ordinary
+   * content is not mistaken for it.
+   */
+  noindex?: boolean;
+  /** schema.org documents describing this page. */
+  structuredData?: readonly JsonLd[];
+}
+
+const {
+  title,
+  description = site.description,
+  ogType = 'website',
+  noindex = false,
+  structuredData = [],
+} = Astro.props;
+
+const documentTitle = title
+  ? `${title} | ${site.name}`
+  : `${site.name} | ${site.role} | UK`;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{documentTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl.href} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta name="twitter:card" content="summary" />
+    {
+      structuredData.length > 0 && (
+        <script
+          type="application/ld+json"
+          is:inline
+          set:html={serialiseJsonLd(structuredData)}
+        />
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <SiteHeader currentPath={Astro.url.pathname} />
+    <main class="site-main" id="main-content">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

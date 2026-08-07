@@ -1,0 +1,441 @@
+/*
+ * Global styles.
+ *
+ * The site ships no JavaScript, so everything here is plain CSS. Colours are
+ * expressed with `light-dark()` and driven by the visitor's system preference.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --colour-background: light-dark(#fbfbfa, #14161a);
+  --colour-surface: light-dark(#ffffff, #1c1f25);
+  --colour-border: light-dark(#e2e2df, #2e333c);
+  --colour-text: light-dark(#1a1a1a, #e8e9ea);
+  --colour-text-muted: light-dark(#5f6368, #a3a8b0);
+  --colour-accent: light-dark(#0f6b4f, #58c79c);
+  --colour-warning: light-dark(#9a3412, #f0a37a);
+
+  --font-body:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --content-width: 68rem;
+  --reading-width: 44rem;
+  --radius: 0.75rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--colour-background);
+  color: var(--colour-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--colour-accent);
+  text-underline-offset: 0.2em;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--colour-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hidden from sight but still announced by screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lets keyboard users jump straight past the navigation. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 0.75rem 1rem;
+  background-color: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius);
+  z-index: 10;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* Header ------------------------------------------------------------------ */
+
+.site-header {
+  border-bottom: 1px solid var(--colour-border);
+}
+
+.site-header__inner {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+  padding-block: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.site-header__identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.site-header__name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.site-header__name a {
+  text-decoration: none;
+}
+
+.site-header__role {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--colour-text-muted);
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.site-nav a {
+  text-decoration: none;
+  padding-block: 0.25rem;
+  border-bottom: 2px solid transparent;
+  color: var(--colour-text-muted);
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--colour-text);
+}
+
+.site-nav a[aria-current='page'] {
+  color: var(--colour-text);
+  border-bottom-color: var(--colour-accent);
+}
+
+/* Main -------------------------------------------------------------------- */
+
+.site-main {
+  flex: 1;
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+  padding-block: 3rem 4rem;
+}
+
+.page-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.page-intro {
+  margin: 0 0 2.5rem;
+  color: var(--colour-text-muted);
+  max-width: var(--reading-width);
+  text-wrap: pretty;
+}
+
+/* Link cards -------------------------------------------------------------- */
+
+.link-section + .link-section {
+  margin-top: 3.5rem;
+}
+
+.link-section__heading {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.link-section__description {
+  margin: 0 0 1.5rem;
+  color: var(--colour-text-muted);
+  /* Deliberately not capped at `--reading-width`: that is meant for long-form
+     prose, and here it would leave a short caption wrapping in a narrow column
+     above a grid spanning the full page. `pretty` stops a longer description
+     dropping a single orphaned word onto the last line. */
+  text-wrap: pretty;
+}
+
+.link-grid {
+  display: grid;
+  /* `auto-fill` rather than `auto-fit`, so a section with fewer links than
+     there are columns keeps its cards the same size as every other section's
+     instead of stretching them across the row. `min()` keeps a card from ever
+     being wider than the screen, which would scroll the page sideways on a
+     narrow phone. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  padding: 1.75rem;
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius);
+  transition:
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-card {
+    transition: none;
+  }
+}
+
+.link-card:hover,
+.link-card:focus-visible {
+  border-color: var(--colour-accent);
+  transform: translateY(-2px);
+}
+
+/* Icons are drawn in the current text colour, so they follow both themes. */
+.link-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.5rem;
+  color: var(--colour-accent);
+}
+
+.link-card__icon svg {
+  width: 3rem;
+  height: 3rem;
+}
+
+.link-card__name {
+  font-size: 1.125rem;
+  font-weight: 650;
+}
+
+.link-card__description {
+  margin-top: -0.75rem;
+  color: var(--colour-text-muted);
+}
+
+/* A dashed edge marks a card the visitor probably cannot open. The section
+   heading carries the actual explanation; this is only so the distinction
+   survives scrolling past it on a phone. */
+.link-card--private {
+  border-style: dashed;
+}
+
+/* Blog -------------------------------------------------------------------- */
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  max-width: var(--reading-width);
+}
+
+.post-list__item a {
+  display: block;
+  padding: 1.25rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  background-color: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius);
+}
+
+.post-list__item a:hover,
+.post-list__item a:focus-visible {
+  border-color: var(--colour-accent);
+}
+
+.post {
+  max-width: var(--reading-width);
+}
+
+.post__body {
+  /* Long URLs and unbroken strings must not push the page sideways. */
+  overflow-wrap: break-word;
+}
+
+.post__body > :first-child {
+  margin-top: 0;
+}
+
+.post__body h1,
+.post__body h2,
+.post__body h3,
+.post__body h4 {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+.post__body h2 {
+  font-size: 1.5rem;
+}
+
+.post__body h3 {
+  font-size: 1.25rem;
+}
+
+.post__body img {
+  display: block;
+  margin-inline: auto;
+  border-radius: var(--radius);
+}
+
+.post__body blockquote {
+  margin-inline: 0;
+  padding: 0.25rem 1.25rem;
+  border-left: 3px solid var(--colour-accent);
+  color: var(--colour-text-muted);
+}
+
+.post__body :not(pre) > code {
+  padding: 0.15em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: 0.35rem;
+}
+
+.post__body pre {
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  background-color: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius);
+}
+
+/* Confines a wide table's scrolling to the table, rather than the page. */
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  /* Keeps the scrollable region reachable by keyboard. */
+  scrollbar-gutter: stable;
+}
+
+.post__body table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.post__body th,
+.post__body td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--colour-border);
+  text-align: left;
+}
+
+.post__source {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--colour-border);
+  font-size: 0.9375rem;
+  color: var(--colour-text-muted);
+}
+
+/* Notices ----------------------------------------------------------------- */
+
+.notice {
+  max-width: var(--reading-width);
+  padding: 1.25rem 1.5rem;
+  background-color: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-left: 3px solid var(--colour-warning);
+  border-radius: var(--radius);
+}
+
+.notice p {
+  margin: 0;
+}
+
+.notice p + p {
+  margin-top: 0.75rem;
+}
+
+/* Footer ------------------------------------------------------------------ */
+
+.site-footer {
+  border-top: 1px solid var(--colour-border);
+}
+
+.site-footer__inner {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+  padding-block: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--colour-text-muted);
+}

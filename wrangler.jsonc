@@ -1,0 +1,38 @@
+/**
+ * Cloudflare Workers configuration.
+ *
+ * `npm run build` writes a resolved copy of this file to `dist/server/`, which
+ * is what Wrangler actually uses. Edit this file, never the generated one.
+ *
+ * Reference: https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+
+  // Must match the Worker's name in the Cloudflare dashboard, or Workers
+  // Builds will refuse to deploy.
+  "name": "parrot",
+
+  // Pins the Workers runtime's behaviour, so an upstream change cannot alter
+  // how this site behaves. Raise it deliberately, and test afterwards.
+  "compatibility_date": "2026-08-07",
+
+  // Stops the Worker from being able to address other Workers or Cloudflare's
+  // internal network through `fetch`; requests go out to the public internet
+  // like any other client.
+  "compatibility_flags": ["global_fetch_strictly_public"],
+
+  // Provided by @astrojs/cloudflare; the built site is wired in during
+  // `npm run build`.
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+  },
+
+  // Collects logs and errors so problems in production are diagnosable.
+  // View them under the Worker's Observability tab, or with `wrangler tail`.
+  "observability": {
+    "enabled": true,
+  },
+}

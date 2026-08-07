@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BlogUnavailableError, listPosts, repositoryUrl } from '../../lib/blog';
+import { blogOptions } from '../../lib/blog-config';
+import { BLOG_CACHE_CONTROL } from '../../lib/cache';
+import { breadcrumbSchema } from '../../lib/structured-data';
+
+import type { BlogPostSummary } from '../../lib/blog';
+
+// Rendered per request so that new posts appear without redeploying the site.
+export const prerender = false;
+
+let posts: BlogPostSummary[] = [];
+let unavailable = false;
+
+try {
+  posts = await listPosts(blogOptions());
+} catch (error) {
+  if (!(error instanceof BlogUnavailableError)) {
+    throw error;
+  }
+  unavailable = true;
+  Astro.response.status = 503;
+  console.error('Could not list blog posts', error);
+}
+
+if (!unavailable) {
+  // Let Cloudflare serve the listing from cache between GitHub lookups.
+  Astro.response.headers.set('Cache-Control', BLOG_CACHE_CONTROL);
+}
+
+const origin = Astro.site ?? Astro.url.origin;
+const breadcrumbs = breadcrumbSchema(
+  [
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+  ],
+  origin,
+);
+---
+
+<BaseLayout
+  title="Blog"
+  description="Writing by Mike Green on software engineering."
+  noindex={unavailable}
+  structuredData={[breadcrumbs]}
+>
+  <h1 class="page-title">Blog</h1>
+  <p class="page-intro">
+    Occasional notes on software engineering, published from a <a
+      href={repositoryUrl()}
+      rel="noopener noreferrer">GitHub repository</a
+    >.
+  </p>
+
+  {
+    unavailable && (
+      <div class="notice">
+        <p>The list of posts could not be loaded right now.</p>
+        <p>
+          Posts are read from GitHub when the page is requested, so this is usually
+          temporary. Please try again shortly.
+        </p>
+      </div>
+    )
+  }
+
+  {
+    !unavailable && posts.length === 0 && (
+      <div class="notice">
+        <p>There are no posts yet. Check back another time.</p>
+      </div>
+    )
+  }
+
+  {
+    posts.length > 0 && (
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li class="post-list__item">
+            <a href={`/blog/${post.slug}`}>{post.title}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,31 @@
+---
+import { navigation, site } from '../lib/site';
+
+interface Props {
+  /** Path of the current page, used to mark the active navigation item. */
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const isActive = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__identity">
+      <p class="site-header__name"><a href="/">{site.name}</a></p>
+      <p class="site-header__role">{site.role}</p>
+    </div>
+    <nav class="site-nav" aria-label="Primary">
+      {
+        navigation.map((item) => (
+          <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
