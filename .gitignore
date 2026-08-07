@@ -1,26 +1,38 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Build output
+dist/
+.astro/
+.wrangler/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Dependencies
+node_modules/
 
-# testing
-/coverage
+# Test output
+coverage/
+test-results/
+playwright-report/
+blob-report/
+.playwright/
 
-# production
-/build
+# Secrets and local configuration.
+# Real values belong in `wrangler secret put`, never in the repository.
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
+# Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# IDE
+# Editors
 .idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store

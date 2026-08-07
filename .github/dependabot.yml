@@ -1,9 +1,34 @@
 version: 2
+
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "daily"
-    reviewers:
-      - MyNameIsMikeGreen
-    open-pull-requests-limit: 10
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    # Wait before proposing a release, so a compromised or broken publish has
+    # time to be spotted and pulled before it reaches this repository.
+    cooldown:
+      semver-major-days: 7
+      semver-minor-days: 3
+      semver-patch-days: 3
+    # One pull request for routine updates; majors are raised individually so
+    # they get read properly.
+    groups:
+      npm-minor-and-patch:
+        patterns: ['*']
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 5
+    groups:
+      github-actions:
+        patterns: ['*']
