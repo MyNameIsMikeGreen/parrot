@@ -57,12 +57,13 @@ test.describe('landing page', () => {
   test('separates what a visitor can open from what only works at home', async ({
     page,
   }) => {
-    const publicSection = page.getByRole('region', { name: 'Public profiles' });
-    const homeSection = page.getByRole('region', { name: 'Private projects' });
+    const publicSection = page.getByRole('region', { name: 'Around the web' });
+    const homeSection = page.getByRole('region', { name: 'On my home network' });
 
     await expect(publicSection).toBeVisible();
+    await expect(homeSection).toContainText('Public profiles');
     await expect(homeSection).toBeVisible();
-    await expect(homeSection).toContainText('open to anyone');
+    await expect(homeSection).toContainText('Private projects');
 
     await expect(publicSection.getByRole('link')).toHaveText([/GitHub/, /LinkedIn/]);
     await expect(homeSection.getByRole('link')).toHaveText([
