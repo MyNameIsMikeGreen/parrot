@@ -61,7 +61,7 @@ test.describe('landing page', () => {
     const homeSection = page.getByRole('region', { name: 'On my home network' });
 
     await expect(publicSection).toBeVisible();
-    await expect(homeSection).toContainText('Public profiles');
+    await expect(publicSection).toContainText('Public profiles');
     await expect(homeSection).toBeVisible();
     await expect(homeSection).toContainText('Private projects');
 
