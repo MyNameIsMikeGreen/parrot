@@ -66,13 +66,14 @@ Meeting all of that for a handful of link tiles is more trouble than it is worth
 careful reading leaves room for argument. An icon of our own drawing has none of these questions,
 and the card prints the service's name in text anyway, so nothing is lost:
 
-| Service        | What we show                | Instead of                                                         |
-| -------------- | --------------------------- | ------------------------------------------------------------------ |
-| GitHub         | Our own angle-bracket icon  | The Invertocat, which is trademarked and copyright-registered      |
-| LinkedIn       | Our own "profile card" icon | The "in" bug, usable only from assets downloaded under their terms |
-| Home Assistant | Our own house-and-dial icon | Their logo, which is Creative Commons NonCommercial-ShareAlike     |
-| Zigbee2MQTT    | Our own mesh icon           | Their logo; "Zigbee" is a Connectivity Standards Alliance mark     |
-| Platypus       | Our own steaming-pot icon   | Nothing — it has no logo, only a styled wordmark on its own site   |
+| Service        | What we show                 | Instead of                                                         |
+| -------------- | ---------------------------- | ------------------------------------------------------------------ |
+| GitHub         | Our own angle-bracket icon   | The Invertocat, which is trademarked and copyright-registered      |
+| LinkedIn       | Our own "profile card" icon  | The "in" bug, usable only from assets downloaded under their terms |
+| Home Assistant | Our own house-and-dial icon  | Their logo, which is Creative Commons NonCommercial-ShareAlike     |
+| Zigbee2MQTT    | Our own mesh icon            | Their logo; "Zigbee" is a Connectivity Standards Alliance mark     |
+| Platypus       | Our own steaming-pot icon    | Nothing — it has no logo, only a styled wordmark on its own site   |
+| Media Server   | Our own screen-and-play icon | Server software logos (e.g. Jellyfin, Plex), which are trademarked |
 
 Using a company's **name** in text is different, and fine: you cannot say where a link goes without
 naming its destination.

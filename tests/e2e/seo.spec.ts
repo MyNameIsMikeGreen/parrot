@@ -227,7 +227,7 @@ test.describe('outbound links', () => {
     await page.goto('/');
 
     const cards = page.locator('.link-card--private');
-    await expect(cards).toHaveCount(3);
+    await expect(cards).toHaveCount(4);
 
     for (const card of await cards.all()) {
       expect(await card.getAttribute('rel')).toContain('nofollow');

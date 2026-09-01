@@ -54,6 +54,14 @@ test.describe('landing page', () => {
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
   });
 
+  test('links to the Media Server', async ({ page }) => {
+    const card = page.getByRole('link', { name: /Media Server/ });
+
+    await expect(card).toHaveAttribute('href', 'http://pi:8096');
+    await expect(card).toContainText('Streaming Media');
+    await expect(card.locator('.link-card__icon svg')).toBeVisible();
+  });
+
   test('separates what a visitor can open from what only works at home', async ({
     page,
   }) => {
@@ -70,13 +78,14 @@ test.describe('landing page', () => {
       /Platypus/,
       /Home Assistant/,
       /Zigbee2MQTT/,
+      /Media Server/,
     ]);
   });
 
   test('warns about every private service, and only those', async ({ page }) => {
     // Announced to screen readers, because tabbing between links skips the
     // section heading that explains it visually.
-    for (const name of [/Platypus/, /Home Assistant/, /Zigbee2MQTT/]) {
+    for (const name of [/Platypus/, /Home Assistant/, /Zigbee2MQTT/, /Media Server/]) {
       await expect(page.getByRole('link', { name })).toContainText(
         'Private network only',
       );
@@ -88,12 +97,12 @@ test.describe('landing page', () => {
       );
     }
 
-    await expect(page.locator('.link-card--private')).toHaveCount(3);
+    await expect(page.locator('.link-card--private')).toHaveCount(4);
   });
 
   test('gives every link a name, a description and some artwork', async ({ page }) => {
     const cards = page.locator('.link-card');
-    await expect(cards).toHaveCount(5);
+    await expect(cards).toHaveCount(6);
 
     for (const card of await cards.all()) {
       await expect(card.locator('.link-card__name')).not.toBeEmpty();

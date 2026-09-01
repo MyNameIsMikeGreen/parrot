@@ -96,6 +96,13 @@ export const outboundLinks: readonly OutboundLink[] = [
     icon: 'zigbee2mqtt.svg',
     privateNetworkOnly: true,
   },
+  {
+    name: 'Media Server',
+    description: 'Streaming Media',
+    href: 'http://pi:8096',
+    icon: 'media-server.svg',
+    privateNetworkOnly: true,
+  },
 ];
 
 export const linkSections: readonly LinkSection[] = [
