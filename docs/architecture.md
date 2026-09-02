@@ -40,8 +40,10 @@ JavaScript bundle, which then drew the page and fetched the blog from the browse
 Astro renders on the server and sends HTML. For a site that is mostly text and links, this is
 better in every dimension that matters here:
 
-- **Security.** No client-side JavaScript means `script-src 'none'` is achievable, which
-  eliminates cross-site scripting as a practical concern. See [`security.md`](security.md).
+- **Security.** Rendering on the server means client-side JavaScript is opt-in rather than the
+  default, so the Content Security Policy can stay close to `script-src 'none'` — currently `'self'`,
+  for one small, optional feature — which eliminates cross-site scripting as a practical concern.
+  See [`security.md`](security.md).
 - **Speed.** There is no bundle to download, parse, and execute before anything appears.
 - **Robustness.** The site works in any browser, and cannot break because of a JavaScript error.
 - **Simplicity.** A page is a file containing HTML. That is a much shorter path to understanding

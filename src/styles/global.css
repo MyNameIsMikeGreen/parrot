@@ -285,6 +285,169 @@ img {
   border-style: dashed;
 }
 
+/* Private hostname override ------------------------------------------------ */
+
+/* Deliberately understated: most visitors never need this, so it reads as a
+   footnote rather than a feature. */
+.hostname-override {
+  margin-top: 1rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.hostname-override__intro {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.hostname-override__info {
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-style: italic;
+  font-family: var(--font-body);
+  line-height: 1;
+  color: var(--colour-text-muted);
+  background: none;
+  border: 1px solid var(--colour-border);
+  border-radius: 50%;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.hostname-override__info:hover,
+.hostname-override__info:focus-visible {
+  color: var(--colour-text);
+  border-color: var(--colour-accent);
+}
+
+/* A plain CSS tooltip: shown on hover for the pointer, and on focus for the
+   keyboard, so opening it needs no script of its own. Clicking the button
+   focuses it, which is the "click to open" behaviour it visually reads as. */
+.hostname-override__popover {
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  width: max-content;
+  /* Never wider than the viewport has room for, so it cannot force the whole
+     page to scroll sideways on a narrow phone. */
+  max-width: min(20rem, calc(100vw - 2.5rem));
+  padding: 0.875rem 1rem;
+  color: var(--colour-text);
+  background-color: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  opacity: 0;
+  /* Kept in the accessibility tree at all times (unlike `visibility`), so
+     `aria-describedby` can read it even before it becomes visible. */
+  pointer-events: none;
+  transform: translateY(-0.25rem);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hostname-override__popover {
+    transition: none;
+  }
+}
+
+.hostname-override__info:hover + .hostname-override__popover,
+.hostname-override__info:focus + .hostname-override__popover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.hostname-override__popover code {
+  font-family: var(--font-mono);
+  font-size: 0.8125em;
+}
+
+.hostname-override__details {
+  color: var(--colour-text-muted);
+}
+
+.hostname-override__summary {
+  cursor: pointer;
+  list-style: none;
+  width: fit-content;
+}
+
+.hostname-override__summary::-webkit-details-marker {
+  display: none;
+}
+
+.hostname-override__summary:hover,
+.hostname-override__summary:focus-visible {
+  color: var(--colour-text);
+}
+
+.hostname-override__panel {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  max-width: 24rem;
+}
+
+.hostname-override__label {
+  font-size: 0.8125rem;
+}
+
+.hostname-override__row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hostname-override__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--colour-text);
+  background-color: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: 0.4rem;
+}
+
+.hostname-override__clear {
+  padding: 0.4rem 0.75rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  color: var(--colour-text-muted);
+  background: none;
+  border: 1px solid var(--colour-border);
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.hostname-override__clear:hover,
+.hostname-override__clear:focus-visible {
+  color: var(--colour-text);
+  border-color: var(--colour-accent);
+}
+
+.hostname-override__status {
+  margin: 0;
+  min-height: 1.2em;
+  font-size: 0.8125rem;
+  color: var(--colour-accent);
+}
+
 /* Blog -------------------------------------------------------------------- */
 
 .post-list {

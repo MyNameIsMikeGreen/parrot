@@ -137,3 +137,85 @@ test.describe('landing page', () => {
     }
   });
 });
+
+test.describe('private hostname override', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('is collapsed by default, tucked under the private-network section', async ({
+    page,
+  }) => {
+    const homeSection = page.getByRole('region', { name: 'On my home network' });
+    const details = homeSection.locator('.hostname-override__details');
+
+    await expect(details).toBeVisible();
+    await expect(details).not.toHaveJSProperty('open', true);
+    await expect(page.locator('#hostname-override-input')).toBeHidden();
+  });
+
+  test('explains itself through the info button without needing to expand anything', async ({
+    page,
+  }) => {
+    const info = page.getByRole('button', { name: 'What does this do?' });
+
+    await expect(info).toBeVisible();
+    await expect(page.locator('#hostname-override-popover')).toContainText(
+      /only devices on my home network can resolve/,
+    );
+  });
+
+  test('expands to reveal the input when its summary is activated', async ({ page }) => {
+    await page.locator('.hostname-override__summary').click();
+
+    await expect(page.locator('#hostname-override-input')).toBeVisible();
+  });
+
+  test('remembers a custom host across reloads and rewrites private links to use it', async ({
+    page,
+  }) => {
+    await page.locator('.hostname-override__summary').click();
+    await page.locator('#hostname-override-input').fill('192.168.1.42');
+    await expect(page.locator('#hostname-override-status')).toContainText('192.168.1.42');
+
+    // The links' `href` attributes stay untouched until the moment of a click,
+    // so every other visitor's copy of the page is unaffected.
+    await expect(page.getByRole('link', { name: /Platypus/ })).toHaveAttribute(
+      'href',
+      'http://pi:8001',
+    );
+
+    let requestedUrl = '';
+    await page.route('http://192.168.1.42:8001/', async (route) => {
+      requestedUrl = route.request().url();
+      await route.abort();
+    });
+    await page.getByRole('link', { name: /Platypus/ }).click();
+    await expect.poll(() => requestedUrl).toBe('http://192.168.1.42:8001/');
+
+    // Persisted, so a fresh visit remembers it without being asked again.
+    await page.goto('/');
+    await page.locator('.hostname-override__summary').click();
+    await expect(page.locator('#hostname-override-input')).toHaveValue('192.168.1.42');
+  });
+
+  test('clearing the override restores the default host', async ({ page }) => {
+    await page.locator('.hostname-override__summary').click();
+    await page.locator('#hostname-override-input').fill('192.168.1.42');
+    await page.locator('#hostname-override-clear').click();
+
+    await expect(page.locator('#hostname-override-input')).toHaveValue('');
+
+    await page.reload();
+    await page.locator('.hostname-override__summary').click();
+    await expect(page.locator('#hostname-override-input')).toHaveValue('');
+
+    let requestedUrl = '';
+    await page.route('http://pi:8001/', async (route) => {
+      requestedUrl = route.request().url();
+      await route.abort();
+    });
+    await page.getByRole('link', { name: /Platypus/ }).click();
+    await expect.poll(() => requestedUrl).toBe('http://pi:8001/');
+  });
+});

@@ -6,8 +6,8 @@ anything that touches it.
 
 ## The one-line summary
 
-The site executes **no JavaScript in the browser**, and treats everything it reads from GitHub as
-untrusted text.
+The site executes almost no JavaScript in the browser — one small, same-origin script for one
+optional feature — and treats everything it reads from GitHub as untrusted text.
 
 ## Threat model
 
@@ -22,22 +22,39 @@ steal and nothing to log into. What is left worth protecting is:
 | Leaking a visitor's browsing to third parties | No third-party requests at all                              |
 | Leaking the GitHub token                      | Stored as a Cloudflare secret, never in the repository      |
 
-## No client-side JavaScript
+The hostname override (above) reads and writes exactly one `localStorage` key, in the visitor's
+own browser, and never sends it anywhere — there is still no user data on any server to leak.
 
-Astro renders to HTML on the server. Nothing in this project sends JavaScript to the browser,
-which is what makes `script-src 'none'` possible — and a policy of `script-src 'none'` neutralises
-essentially every cross-site scripting attack, regardless of any mistake made elsewhere.
+## Client-side JavaScript: one script, deliberately constrained
 
-**Adding client-side JavaScript would mean weakening the Content Security Policy.** Before doing
-so, check whether the same result can be achieved with CSS. Modern CSS covers a lot: the site
-already handles dark mode, responsive layout, and focus styling without a line of script.
+Astro renders to HTML on the server, and almost nothing in this project sends JavaScript to the
+browser. The one exception is `public/scripts/private-hostname-override.js`, which backs the
+optional hostname override on the landing page (see
+`src/components/PrivateHostnameOverride.astro` and [`content.md`](content.md)). Because of it, the
+CSP is `script-src 'self'` rather than `'none'` — same-origin scripts are allowed, but nothing
+inline and nothing from a third party.
 
-If script genuinely becomes necessary, prefer a nonce or hash over `'unsafe-inline'`, and update
-the tests in `tests/e2e/security.spec.ts` that currently assert there is none.
+**Before adding another script, check whether the same result can be achieved with CSS.** Modern
+CSS covers a lot: the site already handles dark mode, responsive layout, focus styling, and even
+this feature's own disclosure panel and tooltip, without a line of script. Rewriting a link's
+`href` at the moment it is clicked is not something CSS or plain HTML can do, which is why this one
+exception exists.
 
-The one `<script>` element in the page is a `type="application/ld+json"` block of structured data
-for search engines. The HTML standard classifies that as a _data block_ rather than code: it is
-never executed, and `script-src 'none'` neither blocks it nor is weakened by it. The security tests
+Two rules keep `script-src 'self'` from creeping into `'unsafe-inline'`:
+
+- **Never inline a `<script>` in an `.astro` file without `is:inline` and a `src`.** Astro bundles
+  and then inlines small `<script>` blocks directly into the page HTML by default, which would
+  need `'unsafe-inline'` (or a hash per script) to run. Writing the script as a file under
+  `public/` and loading it with `<script is:inline src="/scripts/…">` keeps it same-origin instead.
+- **Every script must live at a fixed, version-controlled path**, so its `src` can be asserted in
+  `tests/e2e/security.spec.ts` rather than trusted by convention alone.
+
+If a future feature genuinely cannot be done this way and needs to be inline, prefer a nonce or
+hash over `'unsafe-inline'`, and update `tests/e2e/security.spec.ts` accordingly.
+
+The one other `<script>` element in the page is a `type="application/ld+json"` block of structured
+data for search engines. The HTML standard classifies that as a _data block_ rather than code: it
+is never executed, and `script-src 'self'` neither blocks it nor is weakened by it. The security tests
 allow that one type and no other. Its contents are escaped so that text from a blog post cannot
 close the element and inject markup; see [`seo.md`](seo.md#structured-data).
 
@@ -47,7 +64,7 @@ Defined once in [`../src/lib/security-headers.ts`](../src/lib/security-headers.t
 
 ```
 default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';
-script-src 'none'; object-src 'none'; style-src 'self'; font-src 'self';
+script-src 'self'; object-src 'none'; style-src 'self'; font-src 'self';
 connect-src 'self'; manifest-src 'self';
 img-src 'self' https://raw.githubusercontent.com https://camo.githubusercontent.com
         https://user-images.githubusercontent.com
@@ -94,6 +111,12 @@ layer.
 Both read from the same module, and `tests/unit/security-headers.test.ts` fails if `_headers`
 drifts out of step with it. **Change `security-headers.ts` first**, then run the test, which will
 tell you exactly what `_headers` should contain.
+
+`src/middleware.ts` skips these headers entirely under `astro dev` (`import.meta.env.DEV`). The
+dev server's live-reload machinery relies on inline styles, inline scripts, and `eval`, all of
+which the production CSP forbids; applying it there would just leave every page unstyled with no
+security benefit, since the dev server is never the thing the CSP protects. `npm run build && npm
+run preview` serves the site with the real headers - see [`development.md`](development.md).
 
 ## Treating blog content as untrusted
 
@@ -218,7 +241,8 @@ A single unreadable post does not take down the listing.
 
 Before merging anything that touches security:
 
-- [ ] Does the site still ship zero JavaScript? `npm run test:e2e` checks.
+- [ ] Does the site still ship no inline scripts and no third-party scripts? `npm run test:e2e`
+      checks, and would fail if a new script were inlined or loaded from another origin.
 - [ ] Did `security-headers.ts` change without `public/_headers`? `npm test` checks.
 - [ ] Does any new external resource need a CSP entry — and is it genuinely necessary?
 - [ ] Is any new use of `set:html` fed by sanitised content?

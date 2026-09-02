@@ -15,34 +15,45 @@ deliberately adding or upgrading a dependency.
 
 ## Commands
 
-| Command                    | What it does                                                    |
-| :------------------------- | :-------------------------------------------------------------- |
-| `npm run dev`              | Development server on <http://localhost:4321> with live reload  |
-| `npm run build`            | Builds the production site into `dist/`                         |
-| `npm run preview`          | Serves the last build in the real Cloudflare runtime, port 8787 |
-| `npm run check`            | Type-checks TypeScript and `.astro` components                  |
-| `npm run format`           | Reformats the whole project with Prettier                       |
-| `npm run format:check`     | Reports formatting problems without changing files              |
-| `npm test`                 | Unit tests                                                      |
-| `npm run test:watch`       | Unit tests, re-run as you edit                                  |
-| `npm run test:coverage`    | Unit tests with a coverage report and minimum thresholds        |
-| `npm run test:integration` | Tests against the real GitHub API                               |
-| `npm run test:e2e`         | Browser tests against a real build                              |
-| `npm run verify`           | Everything CI runs, in one command                              |
-| `npm run deploy`           | Builds and deploys manually (normally unnecessary)              |
+| Command                    | What it does                                                               |
+| :------------------------- | :------------------------------------------------------------------------- |
+| `npm run dev`              | Development server on <http://localhost:4321> with live reload — see below |
+| `npm run build`            | Builds the production site into `dist/`                                    |
+| `npm run preview`          | Serves the last build in the real Cloudflare runtime, port 8787            |
+| `npm run check`            | Type-checks TypeScript and `.astro` components                             |
+| `npm run format`           | Reformats the whole project with Prettier                                  |
+| `npm run format:check`     | Reports formatting problems without changing files                         |
+| `npm test`                 | Unit tests                                                                 |
+| `npm run test:watch`       | Unit tests, re-run as you edit                                             |
+| `npm run test:coverage`    | Unit tests with a coverage report and minimum thresholds                   |
+| `npm run test:integration` | Tests against the real GitHub API                                          |
+| `npm run test:e2e`         | Browser tests against a real build                                         |
+| `npm run verify`           | Everything CI runs, in one command                                         |
+| `npm run deploy`           | Builds and deploys manually (normally unnecessary)                         |
 
 Run `npm run verify` before pushing. It is the same set of checks CI runs, so a green result
 locally means a green result on GitHub.
 
 ### `npm run dev` versus `npm run preview`
 
-`npm run dev` is fast and reloads as you type, but it runs in Node rather than in Cloudflare's
-runtime, and it does not apply the security headers.
+`astro dev` renders every page on demand rather than reproducing Cloudflare's split between
+prerendered static assets and on-demand rendering, so it goes through the same
+[`src/middleware.ts`](../src/middleware.ts) as production. The middleware deliberately skips the
+security headers - including the CSP - while running under `astro dev`: the dev server's live
+reload injects each page's styles as an inline `<style>` block and relies on inline scripts and
+`eval`, none of which the production `style-src 'self'` / `script-src 'self'` policy allows.
+Applying the real CSP in dev would just serve every page with no CSS and a broken dev toolbar, for
+no security benefit, since the dev server is never the thing the CSP is protecting.
 
 `npm run preview` runs the built site inside `workerd`, the same runtime Cloudflare uses in
-production. Use it whenever you change routing, response headers, caching, or anything in
-`src/middleware.ts`. It does not reload automatically, so rebuild with `npm run build` after
-each change.
+production, serving the real fingerprinted CSS files and the full security headers - so it is the
+way to check how a change actually looks under production-like conditions, or to change routing,
+response headers, caching, or anything in `src/middleware.ts`. It does not reload automatically, so
+rebuild with `npm run build` after each change.
+
+For everyday work, prefer `npm run dev`: it is faster, reloads automatically, and now renders fully
+styled. Reach for `npm run preview` when you need to verify headers, caching, or CSP behaviour
+itself.
 
 ## Project layout
 

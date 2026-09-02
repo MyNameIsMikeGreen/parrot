@@ -4,7 +4,7 @@
 # stay in step; `tests/unit/security-headers.test.ts` enforces that.
 
 /*
-  Content-Security-Policy: default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; script-src 'none'; object-src 'none'; style-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; img-src 'self' https://raw.githubusercontent.com https://camo.githubusercontent.com https://user-images.githubusercontent.com
+  Content-Security-Policy: default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; script-src 'self'; object-src 'none'; style-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; img-src 'self' https://raw.githubusercontent.com https://camo.githubusercontent.com https://user-images.githubusercontent.com
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

@@ -34,11 +34,11 @@ describe('security headers', () => {
     expect(parseRule(contents, '/*')).toEqual({ ...securityHeaders });
   });
 
-  it('denies scripts, framing and every default source', () => {
+  it('denies framing and every default source, and confines scripts to this origin', () => {
     const csp = securityHeaders['Content-Security-Policy'] ?? '';
 
     expect(csp).toContain("default-src 'none'");
-    expect(csp).toContain("script-src 'none'");
+    expect(csp).toContain("script-src 'self'");
     expect(csp).toContain("object-src 'none'");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("base-uri 'none'");

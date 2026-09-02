@@ -24,16 +24,16 @@ for (const path of [staticPage, renderedPage]) {
 
 test.describe('client-side attack surface', () => {
   for (const path of [staticPage, renderedPage, '/no-such-page']) {
-    test(`ships no JavaScript on ${path}`, async ({ page }) => {
+    test(`ships no inline script on ${path}`, async ({ page }) => {
       await page.goto(path);
 
       // `application/ld+json` is structured data for search engines, not code:
       // the HTML standard classifies it as a data block and never executes it.
-      // Everything else must be absent.
-      await expect(page.locator('script:not([type="application/ld+json"])')).toHaveCount(
-        0,
-      );
-      await expect(page.locator('script[src]')).toHaveCount(0);
+      // Everything else must be absent, and any `<script>` that does run must
+      // load from this origin rather than being written inline.
+      await expect(
+        page.locator('script:not([type="application/ld+json"]):not([src])'),
+      ).toHaveCount(0);
     });
 
     test(`uses no inline styles on ${path}`, async ({ page }) => {
@@ -44,6 +44,30 @@ test.describe('client-side attack surface', () => {
       await expect(page.locator('[style]')).toHaveCount(0);
     });
   }
+
+  test('ships exactly one script, loaded from this origin, on the landing page', async ({
+    page,
+  }) => {
+    await page.goto(staticPage);
+
+    const scripts = page.locator('script[src]');
+    await expect(scripts).toHaveCount(1);
+
+    const src = await scripts.getAttribute('src');
+    // A same-origin, root-relative path — never a URL that could point at
+    // another host — is what lets the CSP stay at `script-src 'self'`
+    // instead of needing to allow a third-party origin.
+    expect(src).toMatch(/^\/scripts\/[\w-]+\.js$/);
+  });
+
+  test('ships no script at all on pages other than the landing page', async ({
+    page,
+  }) => {
+    for (const path of [renderedPage, '/no-such-page']) {
+      await page.goto(path);
+      await expect(page.locator('script[src]')).toHaveCount(0);
+    }
+  });
 
   test('strips dangerous markup from blog post content', async ({ page }) => {
     // This post deliberately contains a `<script>`, an `onerror` handler and a
