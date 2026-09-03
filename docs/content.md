@@ -29,22 +29,26 @@ so it is not a synonym for "public". Set `privateNetworkOnly: true` for anything
 on the home network; it moves the link into its own section and tells crawlers not to follow it.
 See [`seo.md`](seo.md#relme-and-sameas).
 
-### The private hostname override
+### The VPN access toggle
 
 Private-network links point at a fixed hostname (`pi`), which only resolves on the home network's
-own DNS/mDNS. Some networks — a phone off Wi-Fi, a guest network, a VPN — never resolve it, even
-though the service is genuinely reachable at some other address from there.
+own DNS/mDNS. There is exactly one visitor who ever needs to reach them from anywhere else — the
+site's owner — over a VPN that resolves a different hostname to the same machine.
 
-`src/components/PrivateHostnameOverride.astro` renders a small, collapsed-by-default disclosure
-under any section with `privateNetworkOnly: true` links (see `src/pages/index.astro`), letting a
-visitor type the hostname or IP address that works for them instead. It is saved to
-`localStorage` in their browser and substituted into a private link's `href` only at the moment
-that link is clicked — every other visitor's copy of the page, and the links' markup itself, are
-unaffected.
+`src/components/VpnAccessToggle.astro` renders a small on/off switch under any section with
+`privateNetworkOnly: true` links (see `src/pages/index.astro`), plus an "i" button that reveals
+what it does only on hover or focus — the technical detail stays off the page rather than
+permanently visible. Switching the switch on substitutes `vpnHostname` (from `src/lib/site.ts`)
+into a private link's `href` only at the moment that link is clicked — every other visitor's copy
+of the page, and the links' markup itself, are unaffected. The switch's own state is saved to
+`localStorage` in the visitor's browser, so it stays on across reloads.
+
+Nobody else has a reason to use it: the VPN hostname does not resolve for anyone not already signed
+into that VPN, so leaving the switch visible and off by default costs nothing.
 
 This is the one feature on the site that cannot be done in CSS alone, and is why the site ships
 one small script rather than none — see [`security.md`](security.md#client-side-javascript-one-script-deliberately-constrained).
-Tests: `tests/e2e/landing-page.spec.ts` (`private hostname override` block).
+Tests: `tests/e2e/landing-page.spec.ts` (`VPN access toggle` block).
 
 ### Icons
 
@@ -199,7 +203,7 @@ breakpoints in most places.
 
 Anything achievable in CSS should be done in CSS. Adding client-side script would mean widening
 the Content Security Policy — see [`security.md`](security.md) for the one existing exception (the
-private hostname override, which genuinely cannot be done any other way) and the rules that keep
+VPN access toggle, which genuinely cannot be done any other way) and the rules that keep
 it narrow before adding another.
 
 ### Inline styles

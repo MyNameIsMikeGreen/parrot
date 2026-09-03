@@ -138,77 +138,67 @@ test.describe('landing page', () => {
   });
 });
 
-test.describe('private hostname override', () => {
+test.describe('VPN access toggle', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
 
-  test('is collapsed by default, tucked under the private-network section', async ({
+  test('is off by default, tucked under the private-network section', async ({
     page,
   }) => {
     const homeSection = page.getByRole('region', { name: 'On my home network' });
-    const details = homeSection.locator('.hostname-override__details');
+    const toggle = homeSection.getByRole('switch', { name: 'Access via VPN' });
 
-    await expect(details).toBeVisible();
-    await expect(details).not.toHaveJSProperty('open', true);
-    await expect(page.locator('#hostname-override-input')).toBeHidden();
+    await expect(toggle).toBeVisible();
+    await expect(toggle).not.toBeChecked();
   });
 
-  test('explains itself through the info button without needing to expand anything', async ({
+  test('explains itself through the info button without needing to be switched on', async ({
     page,
   }) => {
     const info = page.getByRole('button', { name: 'What does this do?' });
 
     await expect(info).toBeVisible();
-    await expect(page.locator('#hostname-override-popover')).toContainText(
-      /only devices on my home network can resolve/,
+    await expect(page.locator('#vpn-toggle-popover')).toContainText(
+      /only resolves on the home network/,
     );
   });
 
-  test('expands to reveal the input when its summary is activated', async ({ page }) => {
-    await page.locator('.hostname-override__summary').click();
-
-    await expect(page.locator('#hostname-override-input')).toBeVisible();
-  });
-
-  test('remembers a custom host across reloads and rewrites private links to use it', async ({
+  test('rewrites a private link to the VPN hostname once switched on', async ({
     page,
   }) => {
-    await page.locator('.hostname-override__summary').click();
-    await page.locator('#hostname-override-input').fill('192.168.1.42');
-    await expect(page.locator('#hostname-override-status')).toContainText('192.168.1.42');
+    const toggle = page.getByRole('switch', { name: 'Access via VPN' });
+    // The switch itself is visually hidden in favour of the track and thumb
+    // drawn beside it; clicking its label is how a visitor actually
+    // activates it, exactly as clicking anywhere on a labelled checkbox does.
+    await page.locator('.vpn-toggle__switch').click();
+    await expect(toggle).toBeChecked();
 
-    // The links' `href` attributes stay untouched until the moment of a click,
-    // so every other visitor's copy of the page is unaffected.
+    // The link's `href` attribute stays untouched until the moment of a
+    // click, so every other visitor's copy of the page is unaffected.
     await expect(page.getByRole('link', { name: /Platypus/ })).toHaveAttribute(
       'href',
       'http://pi:8001',
     );
 
     let requestedUrl = '';
-    await page.route('http://192.168.1.42:8001/', async (route) => {
+    await page.route('http://pi.platypus-quillback.ts.net:8001/', async (route) => {
       requestedUrl = route.request().url();
       await route.abort();
     });
     await page.getByRole('link', { name: /Platypus/ }).click();
-    await expect.poll(() => requestedUrl).toBe('http://192.168.1.42:8001/');
-
-    // Persisted, so a fresh visit remembers it without being asked again.
-    await page.goto('/');
-    await page.locator('.hostname-override__summary').click();
-    await expect(page.locator('#hostname-override-input')).toHaveValue('192.168.1.42');
+    await expect
+      .poll(() => requestedUrl)
+      .toBe('http://pi.platypus-quillback.ts.net:8001/');
   });
 
-  test('clearing the override restores the default host', async ({ page }) => {
-    await page.locator('.hostname-override__summary').click();
-    await page.locator('#hostname-override-input').fill('192.168.1.42');
-    await page.locator('#hostname-override-clear').click();
+  test('switching it off again restores the default host', async ({ page }) => {
+    const toggle = page.getByRole('switch', { name: 'Access via VPN' });
+    const label = page.locator('.vpn-toggle__switch');
 
-    await expect(page.locator('#hostname-override-input')).toHaveValue('');
-
-    await page.reload();
-    await page.locator('.hostname-override__summary').click();
-    await expect(page.locator('#hostname-override-input')).toHaveValue('');
+    await label.click();
+    await label.click();
+    await expect(toggle).not.toBeChecked();
 
     let requestedUrl = '';
     await page.route('http://pi:8001/', async (route) => {
@@ -217,5 +207,40 @@ test.describe('private hostname override', () => {
     });
     await page.getByRole('link', { name: /Platypus/ }).click();
     await expect.poll(() => requestedUrl).toBe('http://pi:8001/');
+  });
+
+  test('switching it off restores the default host even after a link was already rewritten while it was on', async ({
+    page,
+  }) => {
+    // Stop the link from actually navigating away, so both toggles and both
+    // clicks can happen within the same page load rather than needing a
+    // reload in between — a link's `click` handler still runs and rewrites
+    // `href` regardless of whether the navigation itself is prevented.
+    await page.evaluate(() => {
+      document.querySelectorAll('a.link-card--private').forEach((link) => {
+        link.addEventListener('click', (event) => event.preventDefault());
+      });
+    });
+
+    const link = page.getByRole('link', { name: /Platypus/ });
+    const label = page.locator('.vpn-toggle__switch');
+
+    await label.click();
+    await link.click();
+    await expect(link).toHaveAttribute(
+      'href',
+      'http://pi.platypus-quillback.ts.net:8001/',
+    );
+
+    await label.click();
+    await link.click();
+    await expect(link).toHaveAttribute('href', 'http://pi:8001');
+  });
+
+  test('remembers its state across reloads', async ({ page }) => {
+    await page.locator('.vpn-toggle__switch').click();
+
+    await page.goto('/');
+    await expect(page.getByRole('switch', { name: 'Access via VPN' })).toBeChecked();
   });
 });

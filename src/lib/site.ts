@@ -45,6 +45,18 @@ export interface LinkSection {
   readonly privateNetworkOnly: boolean;
 }
 
+/**
+ * Alternate hostname used by the VPN access toggle (see
+ * `src/components/VpnAccessToggle.astro`) in place of `pi` for links flagged
+ * `privateNetworkOnly`.
+ *
+ * This is deliberately just "the address that works over the VPN" as far as
+ * the rest of the site is concerned. What actually makes it resolve there is
+ * a VPN configuration decision, not a Parrot one, and can change without
+ * anything here needing to.
+ */
+export const vpnHostname = 'pi.platypus-quillback.ts.net';
+
 export const site = {
   name: 'Mike Green',
   role: 'Software Engineer',

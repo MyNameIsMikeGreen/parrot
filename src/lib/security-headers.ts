@@ -15,8 +15,8 @@
 /**
  * Content Security Policy.
  *
- * The only script the site ships is the private-hostname override on the
- * landing page (see `src/components/PrivateHostnameOverride.astro`), and it is
+ * The only script the site ships is the VPN access toggle on the
+ * landing page (see `src/components/VpnAccessToggle.astro`), and it is
  * always bundled by Astro into a same-origin, fingerprinted file rather than
  * inlined — so `script-src 'self'` is enough, with no `'unsafe-inline'` or
  * per-request nonce required. Blog images are served from GitHub's raw content

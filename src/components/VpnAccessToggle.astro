@@ -1,0 +1,45 @@
+---
+import { vpnHostname } from '../lib/site';
+
+/**
+ * A single switch that repoints "private network only" links at the
+ * hostname that resolves over the VPN instead of the home network's own
+ * DNS/mDNS.
+ *
+ * There is exactly one person who ever needs this: the site's owner,
+ * reaching their own services from outside the home network. It is not a
+ * feature for a guest — the VPN hostname does not resolve for anyone who
+ * is not already signed into that VPN, so leaving it visible and switched
+ * off costs nothing and asks nothing of anybody else. It is still tucked
+ * under the section it affects, understated, so it does not read as
+ * something a visitor is meant to use. The technical detail of what it does
+ * lives behind an "i" button rather than on the page permanently, in
+ * keeping with that.
+ */
+---
+
+<div class="vpn-toggle">
+  <span class="vpn-toggle__intro">
+    <button type="button" class="vpn-toggle__info" aria-describedby="vpn-toggle-popover">
+      <span aria-hidden="true">i</span>
+      <span class="visually-hidden">What does this do?</span>
+    </button>
+    <span id="vpn-toggle-popover" class="vpn-toggle__popover" role="note">
+      These links point at <code>pi</code>, a name that only resolves on the home network.
+      Switch this on when connecting over the VPN instead.
+    </span>
+  </span>
+  <label class="vpn-toggle__switch" for="vpn-toggle-input">
+    <input
+      type="checkbox"
+      role="switch"
+      id="vpn-toggle-input"
+      class="vpn-toggle__input"
+      data-alternate-hostname={vpnHostname}
+    />
+    <span class="vpn-toggle__track" aria-hidden="true"></span>
+    <span class="vpn-toggle__text">Access via VPN</span>
+  </label>
+</div>
+
+<script is:inline src="/scripts/vpn-access-toggle.js" defer></script>

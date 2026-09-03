@@ -22,21 +22,21 @@ steal and nothing to log into. What is left worth protecting is:
 | Leaking a visitor's browsing to third parties | No third-party requests at all                              |
 | Leaking the GitHub token                      | Stored as a Cloudflare secret, never in the repository      |
 
-The hostname override (above) reads and writes exactly one `localStorage` key, in the visitor's
+The VPN access toggle (above) reads and writes exactly one `localStorage` key, in the visitor's
 own browser, and never sends it anywhere — there is still no user data on any server to leak.
 
 ## Client-side JavaScript: one script, deliberately constrained
 
 Astro renders to HTML on the server, and almost nothing in this project sends JavaScript to the
-browser. The one exception is `public/scripts/private-hostname-override.js`, which backs the
-optional hostname override on the landing page (see
-`src/components/PrivateHostnameOverride.astro` and [`content.md`](content.md)). Because of it, the
+browser. The one exception is `public/scripts/vpn-access-toggle.js`, which backs the
+VPN access toggle on the landing page (see
+`src/components/VpnAccessToggle.astro` and [`content.md`](content.md)). Because of it, the
 CSP is `script-src 'self'` rather than `'none'` — same-origin scripts are allowed, but nothing
 inline and nothing from a third party.
 
 **Before adding another script, check whether the same result can be achieved with CSS.** Modern
-CSS covers a lot: the site already handles dark mode, responsive layout, focus styling, and even
-this feature's own disclosure panel and tooltip, without a line of script. Rewriting a link's
+CSS covers a lot: the site already handles dark mode, responsive layout, and focus styling
+without a line of script. Rewriting a link's
 `href` at the moment it is clicked is not something CSS or plain HTML can do, which is why this one
 exception exists.
 
