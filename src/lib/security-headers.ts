@@ -15,19 +15,16 @@
 /**
  * Content Security Policy.
  *
- * The only script the site ships is the VPN access toggle on the
- * landing page (see `src/components/VpnAccessToggle.astro`), and it is
- * always bundled by Astro into a same-origin, fingerprinted file rather than
- * inlined — so `script-src 'self'` is enough, with no `'unsafe-inline'` or
- * per-request nonce required. Blog images are served from GitHub's raw content
- * hosts, which are the only permitted external origins.
+ * The site ships no client-side JavaScript, so scripts are denied outright.
+ * Blog images are served from GitHub's raw content hosts, which are therefore
+ * the only permitted external origins.
  */
 const contentSecurityPolicy = [
   "default-src 'none'",
   "base-uri 'none'",
   "form-action 'none'",
   "frame-ancestors 'none'",
-  "script-src 'self'",
+  "script-src 'none'",
   "object-src 'none'",
   "style-src 'self'",
   "font-src 'self'",

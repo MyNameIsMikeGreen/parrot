@@ -4,12 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
 
-import {
-  linkSections,
-  linksInSection,
-  outboundLinks,
-  vpnHostname,
-} from '../../src/lib/site';
+import { linkSections, linksInSection, outboundLinks } from '../../src/lib/site';
 
 describe('outboundLinks', () => {
   it('gives every link a name, description and destination', () => {
@@ -45,14 +40,6 @@ describe('outboundLinks', () => {
     const destinations = outboundLinks.map((link) => link.href);
 
     expect(new Set(destinations).size).toBe(destinations.length);
-  });
-});
-
-describe('vpnHostname', () => {
-  it('is a different, resolvable-looking hostname from the default', () => {
-    expect(vpnHostname).not.toBe('');
-    expect(vpnHostname).not.toBe('pi');
-    expect(() => new URL(`http://${vpnHostname}`)).not.toThrow();
   });
 });
 

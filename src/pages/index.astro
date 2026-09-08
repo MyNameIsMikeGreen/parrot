@@ -1,6 +1,5 @@
 ---
 import LinkCard from '../components/LinkCard.astro';
-import VpnAccessToggle from '../components/VpnAccessToggle.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { linkSections, linksInSection, site } from '../lib/site';
 import { profilePageSchema } from '../lib/structured-data';
@@ -32,7 +31,6 @@ const origin = Astro.site ?? Astro.url.origin;
             <LinkCard link={link} />
           ))}
         </ul>
-        {section.privateNetworkOnly && <VpnAccessToggle />}
       </section>
     ))
   }
