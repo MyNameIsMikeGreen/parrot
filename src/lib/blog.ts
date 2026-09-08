@@ -105,6 +105,20 @@ export async function listPosts(options: BlogOptions = {}): Promise<BlogPostSumm
 }
 
 /**
+ * Lists every published post's slug, without fetching any post's body.
+ *
+ * `listPosts` fetches every post's raw markdown so it can read a title, which
+ * is wasted work for a caller that only needs paths — the sitemap being the
+ * only one. Using this instead halves the requests a sitemap crawl makes to
+ * GitHub and avoids downloading content nobody reads.
+ */
+export async function listPostSlugs(options: BlogOptions = {}): Promise<string[]> {
+  const source = options.source ?? defaultBlogSource;
+  const paths = await listPostPaths(source, options);
+  return paths.map((path) => toSlug(fileStem(path))).sort();
+}
+
+/**
  * Fetches and renders a single post.
  *
  * Returns `null` when no post matches, so callers can respond with a 404 rather

@@ -1,14 +1,6 @@
 # Dependencies
 
-Dependency updates are almost entirely automated. Dependabot raises a pull request, the CI suite
-runs against it, and if everything passes GitHub merges it and Cloudflare deploys the result. In
-the normal case you do nothing.
-
-The one exception is updates to the GitHub Actions used by CI, which you merge yourself. The
-reason is explained below.
-
-This document explains how that works, the one-off settings that make it safe, and how to
-intervene when you want to.
+Dependency updates are raised automatically and merged by hand.
 
 ## The chain
 
@@ -17,18 +9,47 @@ intervene when you want to.
 2. **CI runs against the pull request** (`.github/workflows/ci.yml`): formatting, types, unit
    tests, end-to-end tests in the real Workers runtime, and a live check against the blog
    repository.
-3. **Auto-merge is switched on** (`.github/workflows/dependabot-auto-merge.yml`). GitHub then
-   waits, and merges the pull request only once the required checks pass.
+3. **A human merges it** once CI is green (see "What to check before merging" below).
 4. **Cloudflare deploys `main`** automatically, as it does for any other merge.
 
-If CI fails, nothing merges. The pull request sits there until a human looks at it, which is the
-correct outcome — a stuck pull request is a safe failure.
+If CI fails, nothing should be merged. The pull request sits there until a human looks at it,
+which is the correct outcome — a stuck pull request is a safe failure.
 
-## One-off repository settings
+## Why merging isn't automatic
+
+An earlier version of this repository had a `dependabot-auto-merge.yml` workflow that turned on
+GitHub's auto-merge for Dependabot's npm pull requests. It was removed in commit
+[`f289a87`](https://github.com/MyNameIsMikeGreen/parrot/commit/f289a8764c2e00d5bd91e971679acfdda33d2529),
+"Revert problematic version bump and the workflow that merged it" — it had merged a dependency
+update that turned out to be a problem, which is exactly the failure mode its own comments warned
+about: **auto-merge only waits for required status checks, and if `main` has none configured, it
+merges "tests or no tests."**
+
+If you want to bring it back, configure the branch ruleset below **first**, verify it is actually
+enforced (push a deliberately failing pull request and confirm GitHub refuses to merge it), and
+only then recreate the workflow. Doing it in the other order is what went wrong last time.
+
+## What to check before merging
+
+`npm ci` passing is not the only signal worth reading, because two things can silently drift out
+of date without failing the build:
+
+- **`npm audit`.** An update can introduce a new transitive dependency with its own advisory,
+  which nothing in `ci.yml` currently fails on. Run it locally, or read the log if it is ever
+  added as a CI step.
+- **The `allow-scripts` warning `npm ci` prints to the log.** `allowScripts` in `package.json`
+  pins the exact versions of `esbuild`, `sharp`, `workerd` and `fsevents` permitted to run install
+  scripts (see [`security.md`](security.md#supply-chain)). A dependency bump that touches one of
+  these — which `workerd` does on almost every `wrangler` update — moves it out of the pinned
+  list. `npm` does not fail the build over this, it only warns, so the pull request merges either
+  way; the warning is easy to miss precisely because nothing red draws attention to it. After
+  reading what changed, bring the pin back in step with `npm approve-scripts <package>`.
+
+## One-off repository settings for reintroducing auto-merge
 
 **The workflow alone is not enough.** Until the settings below are configured, auto-merge has
 nothing to wait for and will merge dependency updates _without regard to whether the tests
-passed_. Do these before relying on the automation.
+passed_ — which is what happened before. Do these before relying on the automation.
 
 ### 1. Allow auto-merge
 
@@ -65,12 +86,12 @@ Do **not** add `Enable auto-merge` to the required checks. That job only runs fo
 pull requests and is skipped on everyone else's, so requiring it risks blocking your own pull
 requests on a check that will never report.
 
-## What gets merged automatically
+## What is safe to merge
 
-Every npm update, including major versions, provided CI passes.
+Every npm update, including major versions, once CI passes and the checks above are clean.
 
-That is a deliberate choice, and the safety net is the test suite rather than a human reading a
-changelog. Three things make it defensible here:
+That is a deliberate choice, and the safety net is the test suite rather than solely a human
+reading a changelog. Three things make it defensible here:
 
 - The tests exercise the actual product — pages served by the real Workers runtime — rather than
   implementation details, so a dependency that breaks the site should fail them.
@@ -83,16 +104,17 @@ Major versions arrive as individual pull requests, so if one does break somethin
 which dependency did it. Minor and patch updates are grouped into a single pull request to keep
 the noise down.
 
-## Why GitHub Actions updates are merged by hand
+## Why GitHub Actions updates would need care even under auto-merge
 
-Dependabot also watches the actions used in `.github/workflows/`, and those pull requests are
-deliberately left for you. They are the handful you will see a few times a year.
+Dependabot also watches the actions used in `.github/workflows/`. These are the ones most worth
+reading by hand even if npm updates are ever automated again, because a compromised GitHub Action
+runs with access to CI, so an action bump deserves the glance that a lockfile bump does not.
 
-The reason is a deliberate GitHub restriction. The token a workflow is given has no permission to
-write GitHub Actions workflow files — there is no `workflows:` key in a workflow's `permissions:`
-block at all. This stops a workflow rewriting itself to grant itself more access. Because a
-Dependabot actions update changes a file under `.github/workflows/`, asking GitHub to auto-merge
-it fails with:
+There is also a structural reason auto-merge could never cover them: the built-in workflow token
+has no permission to write GitHub Actions workflow files — there is no `workflows:` key in a
+workflow's `permissions:` block at all. This stops a workflow rewriting itself to grant itself more
+access. Because a Dependabot actions update changes a file under `.github/workflows/`, asking
+GitHub to auto-merge one fails with:
 
 ```
 refusing to allow a GitHub App to create or update workflow ... without workflows permission
@@ -101,21 +123,11 @@ refusing to allow a GitHub App to create or update workflow ... without workflow
 Working around it means creating a GitHub App with `Workflows: Write`, storing its private key in
 the repository, and using it to merge. That is a powerful credential to leave lying around, and a
 standing ability for automation to rewrite the CI pipeline, in exchange for saving a few clicks a
-year. It is not a good trade for this project, so the workflow filters those pull requests out by
-their branch prefix (`dependabot/github_actions/`).
+year — not a good trade for this project. Any future auto-merge workflow should filter these pull
+requests out by their branch prefix (`dependabot/github_actions/`) rather than attempt this.
 
-Reviewing them yourself is also the right instinct: a compromised GitHub Action runs with access
-to your CI, so an action bump deserves the glance that a lockfile bump does not.
-
-To merge one: check CI is green, confirm the new version is a real release from the expected
-publisher, and press Merge.
-
-## Turning it off
-
-To stop automatic merging without losing the update pull requests, set the workflow's enforcement
-to nothing by deleting `.github/workflows/dependabot-auto-merge.yml`, or simply untick **Allow
-auto-merge** in the repository settings. Dependabot will carry on raising pull requests and CI
-will carry on checking them; they will just wait for you.
+To merge one by hand: check CI is green, confirm the new version is a real release from the
+expected publisher, and press Merge.
 
 To hold back one troublesome dependency, add an `ignore` entry to `.github/dependabot.yml` — see
 the [configuration reference](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference).

@@ -4,6 +4,7 @@ import {
   BlogUnavailableError,
   getPost,
   listPosts,
+  listPostSlugs,
   repositoryUrl,
 } from '../../src/lib/blog';
 
@@ -197,6 +198,33 @@ describe('listPosts', () => {
     await expect(listPosts({ source, fetch: malformed })).rejects.toBeInstanceOf(
       BlogUnavailableError,
     );
+  });
+});
+
+describe('listPostSlugs', () => {
+  it('lists slugs without fetching any post body', async () => {
+    const fetchSpy = stubGitHub({ tree: defaultTree, files: defaultFiles });
+
+    const slugs = await listPostSlugs({ source, fetch: fetchSpy });
+
+    expect(slugs).toEqual(['another-post', 'first-post']);
+    // Only the tree listing should be requested - no per-post raw fetches.
+    expect(vi.mocked(fetchSpy).mock.calls).toHaveLength(1);
+  });
+
+  it('returns an empty list when the repository has no posts', async () => {
+    const slugs = await listPostSlugs({
+      source,
+      fetch: stubGitHub({ tree: [{ path: 'README.md', type: 'blob' }] }),
+    });
+
+    expect(slugs).toEqual([]);
+  });
+
+  it('reports the blog as unavailable when GitHub rate limits the request', async () => {
+    await expect(
+      listPostSlugs({ source, fetch: stubGitHub({ treeStatus: 403 }) }),
+    ).rejects.toBeInstanceOf(BlogUnavailableError);
   });
 });
 

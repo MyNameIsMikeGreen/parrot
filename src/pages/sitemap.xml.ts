@@ -1,4 +1,4 @@
-import { BlogUnavailableError, listPosts } from '../lib/blog';
+import { BlogUnavailableError, listPostSlugs } from '../lib/blog';
 import { blogOptions } from '../lib/blog-config';
 import { BLOG_CACHE_CONTROL } from '../lib/cache';
 
@@ -26,8 +26,8 @@ export const GET: APIRoute = async ({ site, url }) => {
 
   let postPaths: string[] = [];
   try {
-    const posts = await listPosts(blogOptions());
-    postPaths = posts.map((post) => `/blog/${post.slug}`);
+    const slugs = await listPostSlugs(blogOptions());
+    postPaths = slugs.map((slug) => `/blog/${slug}`);
   } catch (error) {
     if (!(error instanceof BlogUnavailableError)) {
       throw error;
