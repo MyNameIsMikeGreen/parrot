@@ -83,6 +83,15 @@ export const outboundLinks: readonly OutboundLink[] = [
     privateNetworkOnly: true,
   },
   {
+    name: 'Jellyfin',
+    description: 'Streaming Media',
+    href: 'http://pi:8096',
+    // Icon depicts a generic media server, not Jellyfin's own logo.
+    // See docs/content.md#using-other-peoples-logos.
+    icon: 'media-server.svg',
+    privateNetworkOnly: true,
+  },
+  {
     name: 'Home Assistant',
     description: 'Home Automation',
     href: 'http://pi:8123',
@@ -94,13 +103,6 @@ export const outboundLinks: readonly OutboundLink[] = [
     description: 'Zigbee Devices',
     href: 'http://pi:8080',
     icon: 'zigbee2mqtt.svg',
-    privateNetworkOnly: true,
-  },
-  {
-    name: 'Media Server',
-    description: 'Streaming Media',
-    href: 'http://pi:8096',
-    icon: 'media-server.svg',
     privateNetworkOnly: true,
   },
 ];

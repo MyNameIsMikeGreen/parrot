@@ -73,7 +73,7 @@ and the card prints the service's name in text anyway, so nothing is lost:
 | Home Assistant | Our own house-and-dial icon  | Their logo, which is Creative Commons NonCommercial-ShareAlike     |
 | Zigbee2MQTT    | Our own mesh icon            | Their logo; "Zigbee" is a Connectivity Standards Alliance mark     |
 | Platypus       | Our own steaming-pot icon    | Nothing — it has no logo, only a styled wordmark on its own site   |
-| Media Server   | Our own screen-and-play icon | Server software logos (e.g. Jellyfin, Plex), which are trademarked |
+| Jellyfin       | Our own screen-and-play icon | Its logo, which is trademarked, like other server software (e.g. Plex) |
 
 Using a company's **name** in text is different, and fine: you cannot say where a link goes without
 naming its destination.

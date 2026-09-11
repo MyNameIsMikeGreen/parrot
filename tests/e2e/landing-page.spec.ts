@@ -38,6 +38,14 @@ test.describe('landing page', () => {
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
   });
 
+  test('links to Jellyfin', async ({ page }) => {
+    const card = page.getByRole('link', { name: /Jellyfin/ });
+
+    await expect(card).toHaveAttribute('href', 'http://pi:8096');
+    await expect(card).toContainText('Streaming Media');
+    await expect(card.locator('.link-card__icon svg')).toBeVisible();
+  });
+
   test('links to Home Assistant', async ({ page }) => {
     const card = page.getByRole('link', { name: /Home Assistant/ });
 
@@ -51,14 +59,6 @@ test.describe('landing page', () => {
 
     await expect(card).toHaveAttribute('href', 'http://pi:8080');
     await expect(card).toContainText('Zigbee Devices');
-    await expect(card.locator('.link-card__icon svg')).toBeVisible();
-  });
-
-  test('links to the Media Server', async ({ page }) => {
-    const card = page.getByRole('link', { name: /Media Server/ });
-
-    await expect(card).toHaveAttribute('href', 'http://pi:8096');
-    await expect(card).toContainText('Streaming Media');
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
   });
 
@@ -76,16 +76,16 @@ test.describe('landing page', () => {
     await expect(publicSection.getByRole('link')).toHaveText([/GitHub/, /LinkedIn/]);
     await expect(homeSection.getByRole('link')).toHaveText([
       /Platypus/,
+      /Jellyfin/,
       /Home Assistant/,
       /Zigbee2MQTT/,
-      /Media Server/,
     ]);
   });
 
   test('warns about every private service, and only those', async ({ page }) => {
     // Announced to screen readers, because tabbing between links skips the
     // section heading that explains it visually.
-    for (const name of [/Platypus/, /Home Assistant/, /Zigbee2MQTT/, /Media Server/]) {
+    for (const name of [/Platypus/, /Jellyfin/, /Home Assistant/, /Zigbee2MQTT/]) {
       await expect(page.getByRole('link', { name })).toContainText(
         'Private network only',
       );
