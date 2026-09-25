@@ -32,14 +32,14 @@
     "remark-rehype": "^11.1.2",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "wrangler": "^4.135.0"
+    "wrangler": "^4.136.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@playwright/test": "^1.63.0",
     "@types/hast": "^3.0.5",
     "@types/mdast": "^4.0.4",
-    "@types/node": "^26.6.1",
+    "@types/node": "^26.6.2",
     "@vitest/coverage-v8": "^5.0.2",
     "prettier": "^3.9.8",
     "prettier-plugin-astro": "^1.1.0",
