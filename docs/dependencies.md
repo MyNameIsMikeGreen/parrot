@@ -100,9 +100,14 @@ reading a changelog. Three things make it defensible here:
   reaches this repository.
 - Rolling back is quick and does not need a code change (see below).
 
-Major versions arrive as individual pull requests, so if one does break something it is obvious
-which dependency did it. Minor and patch updates are grouped into a single pull request to keep
+Major versions arrive as individual pull requests, except `vitest` and
+`@vitest/coverage-v8`, which must move together because the coverage provider requires an exact
+matching Vitest version. Minor and patch updates are grouped into a single pull request to keep
 the noise down.
+
+Keep TypeScript on a version supported by `@astrojs/check`. TypeScript 7 does not yet expose the
+Language Service API that Astro's checker uses; bypassing its peer dependency would remove the
+reliable Astro diagnostics from CI rather than fix the update.
 
 ## Why GitHub Actions updates would need care even under auto-merge
 

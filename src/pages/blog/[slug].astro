@@ -74,47 +74,40 @@ const structuredData = post
   noindex={post === null || unavailable}
   structuredData={structuredData}
 >
-  {
-    unavailable && (
-      <>
-        <h1 class="page-title">Post unavailable</h1>
-        <div class="notice">
-          <p>This post could not be loaded right now.</p>
-          <p>
-            Posts are read from GitHub when the page is requested, so this is usually
-            temporary. Please try again shortly, or <a href="/blog">return to the blog</a>
-            .
-          </p>
-        </div>
-      </>
-    )
-  }
-
-  {
-    !unavailable && post === null && (
-      <>
-        <h1 class="page-title">Post not found</h1>
-        <p class="page-intro">
-          There is no post at this address. It may have been renamed.
-        </p>
+  {unavailable && (
+    <>
+      <h1 class="page-title">Post unavailable</h1>
+      <div class="notice">
+        <p>This post could not be loaded right now.</p>
         <p>
-          <a href="/blog">Browse all posts</a>
+          Posts are read from GitHub when the page is requested, so this is usually
+          temporary. Please try again shortly, or <a href="/blog">return to the blog</a>.
         </p>
-      </>
-    )
-  }
+      </div>
+    </>
+  )}
 
-  {
-    post && (
-      <article class="post">
-        <h1 class="page-title">{post.title}</h1>
-        <div class="post__body" set:html={post.html} />
-        <p class="post__source">
-          <a href={post.sourceUrl} rel="noopener noreferrer">
-            View the source of this post on GitHub
-          </a>
-        </p>
-      </article>
-    )
-  }
+  {!unavailable && post === null && (
+    <>
+      <h1 class="page-title">Post not found</h1>
+      <p class="page-intro">
+        There is no post at this address. It may have been renamed.
+      </p>
+      <p>
+        <a href="/blog">Browse all posts</a>
+      </p>
+    </>
+  )}
+
+  {post && (
+    <article class="post">
+      <h1 class="page-title">{post.title}</h1>
+      <div class="post__body" set:html={post.html} />
+      <p class="post__source">
+        <a href={post.sourceUrl} rel="noopener noreferrer">
+          View the source of this post on GitHub
+        </a>
+      </p>
+    </article>
+  )}
 </BaseLayout>

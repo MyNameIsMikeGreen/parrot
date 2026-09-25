@@ -55,18 +55,18 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl.href} />
     <meta name="twitter:card" content="summary" />
-    {
-      structuredData.length > 0 && (
-        <script
-          type="application/ld+json"
-          is:inline
-          set:html={serialiseJsonLd(structuredData)}
-        />
-      )
-    }
+    {structuredData.length > 0 && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={serialiseJsonLd(structuredData)}
+      />
+    )}
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">
+      Skip to content
+    </a>
     <SiteHeader currentPath={Astro.url.pathname} />
     <main class="site-main" id="main-content">
       <slot />

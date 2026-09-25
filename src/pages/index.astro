@@ -19,19 +19,17 @@ const origin = Astro.site ?? Astro.url.origin;
     a (very-skilled... and modest) software engineer based in the UK.
   </p>
 
-  {
-    sections.map(({ section, links }) => (
-      <section class="link-section" aria-labelledby={`${section.id}-heading`}>
-        <h2 class="link-section__heading" id={`${section.id}-heading`}>
-          {section.heading}
-        </h2>
-        <p class="link-section__description">{section.description}</p>
-        <ul class="link-grid">
-          {links.map((link) => (
-            <LinkCard link={link} />
-          ))}
-        </ul>
-      </section>
-    ))
-  }
+  {sections.map(({ section, links }) => (
+    <section class="link-section" aria-labelledby={`${section.id}-heading`}>
+      <h2 class="link-section__heading" id={`${section.id}-heading`}>
+        {section.heading}
+      </h2>
+      <p class="link-section__description">{section.description}</p>
+      <ul class="link-grid">
+        {links.map((link) => (
+          <LinkCard link={link} />
+        ))}
+      </ul>
+    </section>
+  ))}
 </BaseLayout>

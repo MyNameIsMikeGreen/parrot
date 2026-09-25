@@ -47,41 +47,36 @@ const breadcrumbs = breadcrumbSchema(
 >
   <h1 class="page-title">Blog</h1>
   <p class="page-intro">
-    Occasional notes on software engineering, published from a <a
-      href={repositoryUrl()}
-      rel="noopener noreferrer">GitHub repository</a
-    >.
+    Occasional notes on software engineering, published from a{' '}
+    <a href={repositoryUrl()} rel="noopener noreferrer">
+      GitHub repository
+    </a>
+    .
   </p>
 
-  {
-    unavailable && (
-      <div class="notice">
-        <p>The list of posts could not be loaded right now.</p>
-        <p>
-          Posts are read from GitHub when the page is requested, so this is usually
-          temporary. Please try again shortly.
-        </p>
-      </div>
-    )
-  }
+  {unavailable && (
+    <div class="notice">
+      <p>The list of posts could not be loaded right now.</p>
+      <p>
+        Posts are read from GitHub when the page is requested, so this is usually
+        temporary. Please try again shortly.
+      </p>
+    </div>
+  )}
 
-  {
-    !unavailable && posts.length === 0 && (
-      <div class="notice">
-        <p>There are no posts yet. Check back another time.</p>
-      </div>
-    )
-  }
+  {!unavailable && posts.length === 0 && (
+    <div class="notice">
+      <p>There are no posts yet. Check back another time.</p>
+    </div>
+  )}
 
-  {
-    posts.length > 0 && (
-      <ul class="post-list">
-        {posts.map((post) => (
-          <li class="post-list__item">
-            <a href={`/blog/${post.slug}`}>{post.title}</a>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  {posts.length > 0 && (
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li class="post-list__item">
+          <a href={`/blog/${post.slug}`}>{post.title}</a>
+        </li>
+      ))}
+    </ul>
+  )}
 </BaseLayout>

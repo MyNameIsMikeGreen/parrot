@@ -21,6 +21,10 @@ updates:
         update-types:
           - minor
           - patch
+      vitest-major:
+        patterns: ['vitest', '@vitest/coverage-v8']
+        update-types:
+          - major
 
   - package-ecosystem: github-actions
     directory: /
