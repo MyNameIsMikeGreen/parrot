@@ -74,6 +74,7 @@ and the card prints the service's name in text anyway, so nothing is lost:
 | Zigbee2MQTT    | Our own mesh icon            | Their logo; "Zigbee" is a Connectivity Standards Alliance mark         |
 | Platypus       | Our own steaming-pot icon    | Nothing — it has no logo, only a styled wordmark on its own site       |
 | Jellyfin       | Our own screen-and-play icon | Its logo, which is trademarked, like other server software (e.g. Plex) |
+| Cockpit        | Our own dashboard icon       | Its logo; use of the name and logo is governed by its brand guidelines |
 
 Using a company's **name** in text is different, and fine: you cannot say where a link goes without
 naming its destination.

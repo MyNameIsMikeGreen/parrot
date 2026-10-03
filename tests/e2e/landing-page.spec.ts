@@ -62,6 +62,14 @@ test.describe('landing page', () => {
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
   });
 
+  test('links to Cockpit', async ({ page }) => {
+    const card = page.getByRole('link', { name: /Cockpit/ });
+
+    await expect(card).toHaveAttribute('href', 'https://pi:9090');
+    await expect(card).toContainText('Server Management');
+    await expect(card.locator('.link-card__icon svg')).toBeVisible();
+  });
+
   test('separates what a visitor can open from what only works at home', async ({
     page,
   }) => {
@@ -79,13 +87,20 @@ test.describe('landing page', () => {
       /Jellyfin/,
       /Home Assistant/,
       /Zigbee2MQTT/,
+      /Cockpit/,
     ]);
   });
 
   test('warns about every private service, and only those', async ({ page }) => {
     // Announced to screen readers, because tabbing between links skips the
     // section heading that explains it visually.
-    for (const name of [/Platypus/, /Jellyfin/, /Home Assistant/, /Zigbee2MQTT/]) {
+    for (const name of [
+      /Platypus/,
+      /Jellyfin/,
+      /Home Assistant/,
+      /Zigbee2MQTT/,
+      /Cockpit/,
+    ]) {
       await expect(page.getByRole('link', { name })).toContainText(
         'Private network only',
       );
@@ -97,12 +112,12 @@ test.describe('landing page', () => {
       );
     }
 
-    await expect(page.locator('.link-card--private')).toHaveCount(4);
+    await expect(page.locator('.link-card--private')).toHaveCount(5);
   });
 
   test('gives every link a name, a description and some artwork', async ({ page }) => {
     const cards = page.locator('.link-card');
-    await expect(cards).toHaveCount(6);
+    await expect(cards).toHaveCount(7);
 
     for (const card of await cards.all()) {
       await expect(card.locator('.link-card__name')).not.toBeEmpty();

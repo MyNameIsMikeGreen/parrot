@@ -105,6 +105,16 @@ export const outboundLinks: readonly OutboundLink[] = [
     icon: 'zigbee2mqtt.svg',
     privateNetworkOnly: true,
   },
+  {
+    name: 'Cockpit',
+    description: 'Server Management',
+    // Cockpit serves HTTPS with its own self-signed certificate.
+    href: 'https://pi:9090',
+    // Icon depicts a generic admin dashboard, not Cockpit's own logo.
+    // See docs/content.md#using-other-peoples-logos.
+    icon: 'cockpit.svg',
+    privateNetworkOnly: true,
+  },
 ];
 
 export const linkSections: readonly LinkSection[] = [
