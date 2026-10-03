@@ -115,6 +115,15 @@ export const outboundLinks: readonly OutboundLink[] = [
     icon: 'cockpit.svg',
     privateNetworkOnly: true,
   },
+  {
+    name: 'AdGuard Home',
+    description: 'DNS Ad Blocking',
+    href: 'http://pi:8069',
+    // Icon depicts a generic protective shield, not AdGuard's own logo.
+    // See docs/content.md#using-other-peoples-logos.
+    icon: 'adguard-home.svg',
+    privateNetworkOnly: true,
+  },
 ];
 
 export const linkSections: readonly LinkSection[] = [
