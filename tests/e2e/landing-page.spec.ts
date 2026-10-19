@@ -73,8 +73,16 @@ test.describe('landing page', () => {
   test('links to AdGuard Home', async ({ page }) => {
     const card = page.getByRole('link', { name: /AdGuard Home/ });
 
-    await expect(card).toHaveAttribute('href', 'http://192.168.1.1:8069');
+    await expect(card).toHaveAttribute('href', 'http://gateway:8069');
     await expect(card).toContainText('DNS Ad Blocking');
+    await expect(card.locator('.link-card__icon svg')).toBeVisible();
+  });
+
+  test('links to OpenWrt', async ({ page }) => {
+    const card = page.getByRole('link', { name: /OpenWrt/ });
+
+    await expect(card).toHaveAttribute('href', 'http://gateway:80');
+    await expect(card).toContainText('Network Management');
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
   });
 
@@ -97,6 +105,7 @@ test.describe('landing page', () => {
       /Zigbee2MQTT/,
       /Cockpit/,
       /AdGuard Home/,
+      /OpenWrt/,
     ]);
   });
 
@@ -110,6 +119,7 @@ test.describe('landing page', () => {
       /Zigbee2MQTT/,
       /Cockpit/,
       /AdGuard Home/,
+      /OpenWrt/,
     ]) {
       await expect(page.getByRole('link', { name })).toContainText(
         'Private network only',
@@ -122,12 +132,12 @@ test.describe('landing page', () => {
       );
     }
 
-    await expect(page.locator('.link-card--private')).toHaveCount(6);
+    await expect(page.locator('.link-card--private')).toHaveCount(7);
   });
 
   test('gives every link a name, a description and some artwork', async ({ page }) => {
     const cards = page.locator('.link-card');
-    await expect(cards).toHaveCount(8);
+    await expect(cards).toHaveCount(9);
 
     for (const card of await cards.all()) {
       await expect(card.locator('.link-card__name')).not.toBeEmpty();

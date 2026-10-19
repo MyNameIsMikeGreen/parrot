@@ -118,10 +118,20 @@ export const outboundLinks: readonly OutboundLink[] = [
   {
     name: 'AdGuard Home',
     description: 'DNS Ad Blocking',
-    href: 'http://192.168.1.1:8069',
+    href: 'http://gateway:8069',
     // Icon depicts a generic protective shield, not AdGuard's own logo.
     // See docs/content.md#using-other-peoples-logos.
     icon: 'adguard-home.svg',
+    privateNetworkOnly: true,
+  },
+  {
+    name: 'OpenWrt',
+    description: 'Network Management',
+    // OpenWrt serves plain HTTP on the router, reachable by the name "gateway".
+    href: 'http://gateway:80',
+    // Icon depicts a generic wireless router, not OpenWrt's own logo.
+    // See docs/content.md#using-other-peoples-logos.
+    icon: 'openwrt.svg',
     privateNetworkOnly: true,
   },
 ];

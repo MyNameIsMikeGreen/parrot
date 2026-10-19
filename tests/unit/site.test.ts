@@ -30,7 +30,8 @@ describe('outboundLinks', () => {
     const privateIpv4 = /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/;
     const isPrivateHost = (href: string) => {
       const { hostname } = new URL(href);
-      return hostname === 'pi' || privateIpv4.test(hostname);
+      // Single-label names such as "pi" and "gateway" only resolve on the LAN.
+      return !hostname.includes('.') || privateIpv4.test(hostname);
     };
 
     for (const link of outboundLinks) {

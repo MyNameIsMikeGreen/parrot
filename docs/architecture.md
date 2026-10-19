@@ -211,8 +211,8 @@ every page, so a future style change cannot quietly reintroduce it.
 ## What was left behind
 
 The original site had four link cards. **Pelican** has been decommissioned, so it is gone
-everywhere, and the site now carries eight: GitHub, LinkedIn, Platypus, Jellyfin, Home Assistant,
-Zigbee2MQTT, Cockpit, and AdGuard Home.
+everywhere, and the site now carries nine: GitHub, LinkedIn, Platypus, Jellyfin, Home Assistant,
+Zigbee2MQTT, Cockpit, AdGuard Home, and OpenWrt.
 
 The original bundled brand logos as images with no record of where they came from. Those are gone,
 and so is every raster image: each card is now a hand-drawn SVG icon depicting what the service
