@@ -73,7 +73,7 @@ test.describe('landing page', () => {
   test('links to AdGuard Home', async ({ page }) => {
     const card = page.getByRole('link', { name: /AdGuard Home/ });
 
-    await expect(card).toHaveAttribute('href', 'http://pi:8069');
+    await expect(card).toHaveAttribute('href', 'http://192.168.1.1:8069');
     await expect(card).toContainText('DNS Ad Blocking');
     await expect(card.locator('.link-card__icon svg')).toBeVisible();
   });

@@ -118,7 +118,7 @@ export const outboundLinks: readonly OutboundLink[] = [
   {
     name: 'AdGuard Home',
     description: 'DNS Ad Blocking',
-    href: 'http://pi:8069',
+    href: 'http://192.168.1.1:8069',
     // Icon depicts a generic protective shield, not AdGuard's own logo.
     // See docs/content.md#using-other-peoples-logos.
     icon: 'adguard-home.svg',
