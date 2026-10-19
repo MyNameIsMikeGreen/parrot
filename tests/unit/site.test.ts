@@ -27,7 +27,11 @@ describe('outboundLinks', () => {
   });
 
   it('flags every private-network service, and only those', () => {
-    const isPrivateHost = (href: string) => new URL(href).hostname === 'pi';
+    const privateIpv4 = /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/;
+    const isPrivateHost = (href: string) => {
+      const { hostname } = new URL(href);
+      return hostname === 'pi' || privateIpv4.test(hostname);
+    };
 
     for (const link of outboundLinks) {
       expect(link.privateNetworkOnly ?? false, `${link.name} is mislabelled`).toBe(
